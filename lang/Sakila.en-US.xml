@@ -1,0 +1,701 @@
+<ew-language date="2024/7/23" id="en-US" author="e.World Technology Limited">
+  <project>
+    <phrase id="bodytitle" value="SAKILA - Rental Film Store" />
+    <phrase id="footertext" value="&amp;copy;2024 SakilaSoft. All rights reserved." />
+    <menu id="33">
+      <phrase id="menutext" value="Dashboard All" />
+    </menu>
+    <menu id="26">
+      <phrase id="menutext" value="Registers" />
+    </menu>
+    <menu id="2">
+      <phrase id="menutext" value="Address" />
+    </menu>
+    <menu id="4">
+      <phrase id="menutext" value="City" />
+    </menu>
+    <menu id="3">
+      <phrase id="menutext" value="Category" />
+    </menu>
+    <menu id="5">
+      <phrase id="menutext" value="Country" />
+    </menu>
+    <menu id="12">
+      <phrase id="menutext" value="Language" />
+    </menu>
+    <menu id="15">
+      <phrase id="menutext" value="Staff" />
+    </menu>
+    <menu id="29">
+      <phrase id="menutext" value="Movies" />
+    </menu>
+    <menu id="1">
+      <phrase id="menutext" value="Actor" />
+    </menu>
+    <menu id="7">
+      <phrase id="menutext" value="Film" />
+    </menu>
+    <menu id="8">
+      <phrase id="menutext" value="Actor-Film" />
+    </menu>
+    <menu id="9">
+      <phrase id="menutext" value="Category-Film" />
+    </menu>
+    <menu id="10">
+      <phrase id="menutext" value="Text-Film" />
+    </menu>
+    <menu id="32">
+      <phrase id="menutext" value="Inventory Teams" />
+    </menu>
+    <menu id="11">
+      <phrase id="menutext" value="Inventory" />
+    </menu>
+    <menu id="16">
+      <phrase id="menutext" value="Store" />
+    </menu>
+    <menu id="31">
+      <phrase id="menutext" value="Rent Movies" />
+    </menu>
+    <menu id="6">
+      <phrase id="menutext" value="Customer" />
+    </menu>
+    <menu id="13">
+      <phrase id="menutext" value="Payment" />
+    </menu>
+    <menu id="14">
+      <phrase id="menutext" value="Rental" />
+    </menu>
+    <menu id="30">
+      <phrase id="menutext" value="Reports" />
+    </menu>
+    <menu id="17">
+      <phrase id="menutext" value="Info Actors" />
+    </menu>
+    <menu id="18">
+      <phrase id="menutext" value="Customers Lists" />
+    </menu>
+    <menu id="19">
+      <phrase id="menutext" value="Film List" />
+    </menu>
+    <menu id="20">
+      <phrase id="menutext" value="Sales By Category" />
+    </menu>
+    <menu id="21">
+      <phrase id="menutext" value="Sales By Store" />
+    </menu>
+    <menu id="22">
+      <phrase id="menutext" value="Staff List" />
+    </menu>
+    <menu id="23">
+      <phrase id="menutext" value="Best Film List" />
+    </menu>
+    <menu id="27">
+      <phrase id="menutext" value="Audit" />
+    </menu>
+    <menu id="24">
+      <phrase id="menutext" value="Logs" />
+    </menu>
+    <menu id="25">
+      <phrase id="menutext" value="Logs OP." />
+    </menu>
+    <table id="actor">
+      <phrase id="tblcaption" value="Actor" />
+      <field id="actor_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="first_name">
+        <phrase id="fldcaption" value="First Name" />
+      </field>
+      <field id="last_name">
+        <phrase id="fldcaption" value="Last Name" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="actor_info">
+      <phrase id="tblcaption" value="Info Actors" />
+      <field id="actor_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="first_name">
+        <phrase id="fldcaption" value="First Name" />
+      </field>
+      <field id="last_name">
+        <phrase id="fldcaption" value="Last Name" />
+      </field>
+      <field id="film_info">
+        <phrase id="fldcaption" value="Film Info" />
+      </field>
+    </table>
+    <table id="address">
+      <phrase id="tblcaption" value="Address" />
+      <field id="address_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="address">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+      <field id="address2">
+        <phrase id="fldcaption" value="Description 2" />
+      </field>
+      <field id="district">
+        <phrase id="fldcaption" value="District" />
+      </field>
+      <field id="city_id">
+        <phrase id="fldcaption" value="City" />
+      </field>
+      <field id="postal_code">
+        <phrase id="fldcaption" value="Postal Code" />
+      </field>
+      <field id="phone">
+        <phrase id="fldcaption" value="Phone" />
+      </field>
+      <field id="location">
+        <phrase id="fldcaption" value="Location" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="category">
+      <phrase id="tblcaption" value="Category" />
+      <field id="category_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="name">
+        <phrase id="fldcaption" value="Name" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Las Update" />
+      </field>
+    </table>
+    <table id="city">
+      <phrase id="tblcaption" value="City" />
+      <field id="city_id">
+        <phrase id="fldcaption" value="Id" />
+      </field>
+      <field id="city">
+        <phrase id="fldcaption" value="City" />
+      </field>
+      <field id="country_id">
+        <phrase id="fldcaption" value="Country" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="country">
+      <phrase id="tblcaption" value="Country" />
+      <field id="country_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="country">
+        <phrase id="fldcaption" value="Country" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="last update" />
+      </field>
+    </table>
+    <table id="customer">
+      <phrase id="tblcaption" value="Customer" />
+      <field id="customer_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="store_id">
+        <phrase id="fldcaption" value="Almacen" />
+      </field>
+      <field id="first_name">
+        <phrase id="fldcaption" value="First Name" />
+      </field>
+      <field id="last_name">
+        <phrase id="fldcaption" value="Last Name" />
+      </field>
+      <field id="_email">
+        <phrase id="fldcaption" value="Email" />
+      </field>
+      <field id="address_id">
+        <phrase id="fldcaption" value="Address" />
+      </field>
+      <field id="active">
+        <phrase id="fldcaption" value="Activo" />
+        <phrase id="fldtagvalue1" value="1" />
+        <phrase id="fldtagcaption1" value="Yes" />
+        <phrase id="fldtagvalue2" value="0" />
+        <phrase id="fldtagcaption2" value="No" />
+      </field>
+      <field id="create_date">
+        <phrase id="fldcaption" value="Date Creation" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Date Update" />
+      </field>
+    </table>
+    <table id="customer_list2">
+      <phrase id="tblcaption" value="Customers Lists" />
+      <field id="id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="name">
+        <phrase id="fldcaption" value="Name" />
+      </field>
+      <field id="address">
+        <phrase id="fldcaption" value="Address" />
+      </field>
+      <field id="zipcode">
+        <phrase id="fldcaption" value="Zip Code" />
+      </field>
+      <field id="phone">
+        <phrase id="fldcaption" value="Phone" />
+      </field>
+      <field id="city">
+        <phrase id="fldcaption" value="City" />
+      </field>
+      <field id="country">
+        <phrase id="fldcaption" value="Country" />
+      </field>
+      <field id="notes">
+        <phrase id="fldcaption" value="Notes" />
+      </field>
+      <field id="sid">
+        <phrase id="fldcaption" value="SID" />
+      </field>
+    </table>
+    <table id="film">
+      <phrase id="tblcaption" value="Film" />
+      <field id="film_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="_title">
+        <phrase id="fldcaption" value="Title" />
+      </field>
+      <field id="description">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+      <field id="release_year">
+        <phrase id="fldcaption" value="Release Year" />
+      </field>
+      <field id="language_id">
+        <phrase id="fldcaption" value="Language" />
+      </field>
+      <field id="original_language_id">
+        <phrase id="fldcaption" value="Language Original" />
+      </field>
+      <field id="rental_duration">
+        <phrase id="fldcaption" value="Rental Duration" />
+      </field>
+      <field id="rental_rate">
+        <phrase id="fldcaption" value="Rental Rate" />
+      </field>
+      <field id="length">
+        <phrase id="fldcaption" value="Length" />
+      </field>
+      <field id="replacement_cost">
+        <phrase id="fldcaption" value="Replacement Cost" />
+      </field>
+      <field id="rating">
+        <phrase id="fldcaption" value="Rating" />
+        <phrase id="fldtagvalue1" value="G" />
+        <phrase id="fldtagcaption1" value="G" />
+        <phrase id="fldtagvalue2" value="PG" />
+        <phrase id="fldtagcaption2" value="PG" />
+        <phrase id="fldtagvalue3" value="PG-13" />
+        <phrase id="fldtagcaption3" value="PG-13" />
+        <phrase id="fldtagvalue4" value="R" />
+        <phrase id="fldtagcaption4" value="R" />
+        <phrase id="fldtagvalue5" value="NC-17" />
+        <phrase id="fldtagcaption5" value="NC-17" />
+      </field>
+      <field id="special_features">
+        <phrase id="fldcaption" value="Special Features" />
+        <phrase id="fldtagvalue1" value="Trailers" />
+        <phrase id="fldtagcaption1" value="Trailers" />
+        <phrase id="fldtagvalue2" value="Commentaries" />
+        <phrase id="fldtagcaption2" value="Commentaries" />
+        <phrase id="fldtagvalue3" value="Deleted Scenes" />
+        <phrase id="fldtagcaption3" value="Deleted Scenes" />
+        <phrase id="fldtagvalue4" value="Behind the Scenes" />
+        <phrase id="fldtagcaption4" value="Behind the Scenes" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="film_actor">
+      <phrase id="tblcaption" value="Actor-Film" />
+      <field id="actor_id">
+        <phrase id="fldcaption" value="Actor" />
+      </field>
+      <field id="film_id">
+        <phrase id="fldcaption" value="Film" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="film_category">
+      <phrase id="tblcaption" value="Category-Film" />
+      <field id="film_id">
+        <phrase id="fldcaption" value="Film" />
+      </field>
+      <field id="category_id">
+        <phrase id="fldcaption" value="Category" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="film_list2">
+      <phrase id="tblcaption" value="Film List" />
+      <field id="fid">
+        <phrase id="fldcaption" value="FID" />
+      </field>
+      <field id="_title">
+        <phrase id="fldcaption" value="Title" />
+      </field>
+      <field id="description">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+      <field id="category">
+        <phrase id="fldcaption" value="Category" />
+      </field>
+      <field id="price">
+        <phrase id="fldcaption" value="Price" />
+      </field>
+      <field id="length">
+        <phrase id="fldcaption" value="Length" />
+      </field>
+      <field id="rating">
+        <phrase id="fldcaption" value="Rating" />
+        <phrase id="fldtagvalue1" value="G" />
+        <phrase id="fldtagcaption1" value="G" />
+        <phrase id="fldtagvalue2" value="PG" />
+        <phrase id="fldtagcaption2" value="PG" />
+        <phrase id="fldtagvalue3" value="PG-13" />
+        <phrase id="fldtagcaption3" value="PG-13" />
+        <phrase id="fldtagvalue4" value="R" />
+        <phrase id="fldtagcaption4" value="R" />
+        <phrase id="fldtagvalue5" value="NC-17" />
+        <phrase id="fldtagcaption5" value="NC-17" />
+      </field>
+      <field id="actors">
+        <phrase id="fldcaption" value="Actors" />
+      </field>
+    </table>
+    <table id="film_text">
+      <phrase id="tblcaption" value="Text-Film" />
+      <field id="film_id">
+        <phrase id="fldcaption" value="Film" />
+      </field>
+      <field id="_title">
+        <phrase id="fldcaption" value="Title" />
+      </field>
+      <field id="description">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+    </table>
+    <table id="inventory">
+      <phrase id="tblcaption" value="Inventory" />
+      <field id="inventory_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="film_id">
+        <phrase id="fldcaption" value="Film" />
+      </field>
+      <field id="store_id">
+        <phrase id="fldcaption" value="Store" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+    </table>
+    <table id="language2">
+      <phrase id="tblcaption" value="Language" />
+      <field id="language_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="name">
+        <phrase id="fldcaption" value="Name" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="nicer_but_slower_film_list">
+      <phrase id="tblcaption" value="Best Film List" />
+      <field id="fid">
+        <phrase id="fldcaption" value="FID" />
+      </field>
+      <field id="_title">
+        <phrase id="fldcaption" value="Title" />
+      </field>
+      <field id="description">
+        <phrase id="fldcaption" value="Description" />
+      </field>
+      <field id="category">
+        <phrase id="fldcaption" value="Category" />
+      </field>
+      <field id="price">
+        <phrase id="fldcaption" value="Price" />
+      </field>
+      <field id="length">
+        <phrase id="fldcaption" value="Length" />
+      </field>
+      <field id="rating">
+        <phrase id="fldcaption" value="Rating" />
+        <phrase id="fldtagvalue1" value="G" />
+        <phrase id="fldtagcaption1" value="G" />
+        <phrase id="fldtagvalue2" value="PG" />
+        <phrase id="fldtagcaption2" value="PG" />
+        <phrase id="fldtagvalue3" value="PG-13" />
+        <phrase id="fldtagcaption3" value="PG-13" />
+        <phrase id="fldtagvalue4" value="R" />
+        <phrase id="fldtagcaption4" value="R" />
+        <phrase id="fldtagvalue5" value="NC-17" />
+        <phrase id="fldtagcaption5" value="NC-17" />
+      </field>
+      <field id="actors">
+        <phrase id="fldcaption" value="Actors" />
+      </field>
+    </table>
+    <table id="payment">
+      <phrase id="tblcaption" value="Payment" />
+      <field id="payment_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="customer_id">
+        <phrase id="fldcaption" value="Customer" />
+      </field>
+      <field id="staff_id">
+        <phrase id="fldcaption" value="Staff" />
+      </field>
+      <field id="rental_id">
+        <phrase id="fldcaption" value="Rental" />
+      </field>
+      <field id="amount">
+        <phrase id="fldcaption" value="Amount" />
+      </field>
+      <field id="payment_date">
+        <phrase id="fldcaption" value="Payment Date" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="rental">
+      <phrase id="tblcaption" value="Rental" />
+      <field id="rental_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="rental_date">
+        <phrase id="fldcaption" value="Rental Date" />
+      </field>
+      <field id="inventory_id">
+        <phrase id="fldcaption" value="Inventory" />
+      </field>
+      <field id="customer_id">
+        <phrase id="fldcaption" value="Customer" />
+      </field>
+      <field id="return_date">
+        <phrase id="fldcaption" value="Return Date" />
+      </field>
+      <field id="staff_id">
+        <phrase id="fldcaption" value="Staff" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="sales_by_film_category">
+      <phrase id="tblcaption" value="Sales By Category" />
+      <chart id="salesbycategory">
+        <phrase id="chartcaption" value="SalesByCategory" />
+        <phrase id="chartxaxisname" value="Category" />
+        <phrase id="chartyaxisname" value="total sales" />
+      </chart>
+      <field id="category">
+        <phrase id="fldcaption" value="Category" />
+      </field>
+      <field id="total_sales">
+        <phrase id="fldcaption" value="total sales" />
+      </field>
+    </table>
+    <table id="sales_by_store">
+      <phrase id="tblcaption" value="Sales By Store" />
+      <chart id="salesbystore">
+        <phrase id="chartcaption" value="Sales By Store" />
+        <phrase id="chartxaxisname" value="Store" />
+        <phrase id="chartyaxisname" value="Total Sales" />
+      </chart>
+      <chart id="salesbymanager">
+        <phrase id="chartcaption" value="Sales By Manager" />
+        <phrase id="chartxaxisname" value="Manager" />
+        <phrase id="chartyaxisname" value="Total Sales" />
+      </chart>
+      <field id="store">
+        <phrase id="fldcaption" value="Store" />
+      </field>
+      <field id="manager">
+        <phrase id="fldcaption" value="Manager" />
+      </field>
+      <field id="total_sales">
+        <phrase id="fldcaption" value="Total Sales" />
+      </field>
+    </table>
+    <table id="staff">
+      <phrase id="tblcaption" value="Staff" />
+      <field id="staff_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="first_name">
+        <phrase id="fldcaption" value="First Name" />
+      </field>
+      <field id="last_name">
+        <phrase id="fldcaption" value="Last Name" />
+      </field>
+      <field id="address_id">
+        <phrase id="fldcaption" value="Address" />
+      </field>
+      <field id="picture">
+        <phrase id="fldcaption" value="Picture" />
+      </field>
+      <field id="_email">
+        <phrase id="fldcaption" value="Email" />
+      </field>
+      <field id="store_id">
+        <phrase id="fldcaption" value="Store" />
+      </field>
+      <field id="active">
+        <phrase id="fldcaption" value="Active" />
+        <phrase id="fldtagvalue1" value="1" />
+        <phrase id="fldtagcaption1" value="Yes" />
+        <phrase id="fldtagvalue2" value="0" />
+        <phrase id="fldtagcaption2" value="No" />
+      </field>
+      <field id="_username">
+        <phrase id="fldcaption" value="Username" />
+      </field>
+      <field id="_password">
+        <phrase id="fldcaption" value="Password" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="staff_list2">
+      <phrase id="tblcaption" value="Staff List" />
+      <chart id="staffbycountry">
+        <phrase id="chartcaption" value="Staff By Country" />
+        <phrase id="chartxaxisname" value="Country" />
+        <phrase id="chartyaxisname" value="Name" />
+      </chart>
+      <chart id="staffbycity">
+        <phrase id="chartcaption" value="Staff By City" />
+        <phrase id="chartxaxisname" value="City" />
+        <phrase id="chartyaxisname" value="Name" />
+      </chart>
+      <field id="id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="name">
+        <phrase id="fldcaption" value="Name" />
+      </field>
+      <field id="address">
+        <phrase id="fldcaption" value="Address" />
+      </field>
+      <field id="zipcode">
+        <phrase id="fldcaption" value="Zip Code" />
+      </field>
+      <field id="phone">
+        <phrase id="fldcaption" value="Phone" />
+      </field>
+      <field id="city">
+        <phrase id="fldcaption" value="City" />
+      </field>
+      <field id="country">
+        <phrase id="fldcaption" value="Country" />
+      </field>
+      <field id="sid">
+        <phrase id="fldcaption" value="SID" />
+      </field>
+    </table>
+    <table id="store">
+      <phrase id="tblcaption" value="Store" />
+      <field id="store_id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+      <field id="manager_staff_id">
+        <phrase id="fldcaption" value="Manager" />
+      </field>
+      <field id="address_id">
+        <phrase id="fldcaption" value="Address" />
+      </field>
+      <field id="last_update">
+        <phrase id="fldcaption" value="Last Update" />
+      </field>
+    </table>
+    <table id="audittrail">
+      <phrase id="tblcaption" value="audittrail" />
+      <field id="id">
+        <phrase id="fldcaption" value="Id" />
+      </field>
+      <field id="datetime">
+        <phrase id="fldcaption" value="Date Time" />
+      </field>
+      <field id="script">
+        <phrase id="fldcaption" value="Script" />
+      </field>
+      <field id="user">
+        <phrase id="fldcaption" value="User" />
+      </field>
+      <field id="_action">
+        <phrase id="fldcaption" value="Action" />
+      </field>
+      <field id="_table">
+        <phrase id="fldcaption" value="Table" />
+      </field>
+      <field id="field">
+        <phrase id="fldcaption" value="Field" />
+      </field>
+      <field id="keyvalue">
+        <phrase id="fldcaption" value="Key Value" />
+      </field>
+      <field id="oldvalue">
+        <phrase id="fldcaption" value="Old Value" />
+      </field>
+      <field id="newvalue">
+        <phrase id="fldcaption" value="New Value" />
+      </field>
+    </table>
+    <table id="exportlog">
+      <phrase id="tblcaption" value="exportlog" />
+      <field id="fileid">
+        <phrase id="fldcaption" value="File Id" />
+      </field>
+      <field id="datetime">
+        <phrase id="fldcaption" value="Date Time" />
+      </field>
+      <field id="user">
+        <phrase id="fldcaption" value="User" />
+      </field>
+      <field id="_exporttype">
+        <phrase id="fldcaption" value="Export Type" />
+      </field>
+      <field id="_table">
+        <phrase id="fldcaption" value="Table" />
+      </field>
+      <field id="keyvalue">
+        <phrase id="fldcaption" value="Key Value" />
+      </field>
+      <field id="filename">
+        <phrase id="fldcaption" value="Filename" />
+      </field>
+      <field id="__request">
+        <phrase id="fldcaption" value="ID" />
+      </field>
+    </table>
+    <table id="dashboardall">
+      <phrase id="tblcaption" value="Dashboard All" />
+    </table>
+  </project>
+</ew-language>

@@ -1,0 +1,11 @@
+{
+    "name": "sakila",
+    "version": "24.13.0",
+    "description": "sakila",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "private": true,
+    "dependencies": {},
+    "engines": {
+        "node": ">=18"
+    }
+}

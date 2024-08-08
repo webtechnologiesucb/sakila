@@ -384,6 +384,7 @@ class Staff extends DbTable
             'PASSWORD' // Edit Tag
         );
         $this->_password->InputTextType = "text";
+        $this->_password->Raw = true;
         $this->_password->Required = true; // Required field
         $this->_password->SearchOperators = ["=", "<>", "IS NULL", "IS NOT NULL"];
         $this->Fields['password'] = &$this->_password;

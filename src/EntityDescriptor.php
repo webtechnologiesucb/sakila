@@ -2,7 +2,7 @@
 
 /**
  * Entity Descriptor for SAML2 Provider
- * Copyright (c) SakilaSoft. All rights reserved.
+ * Copyright (c) e.World Technology Limited. All rights reserved.
  */
 
 namespace PHPMaker2024\Sakila;
@@ -19,12 +19,11 @@ class EntityDescriptor extends BaseEntityDescriptor
      */
     public static function load($filename)
     {
-        $options = [
-            "ssl" =>
-                [
-                    "verify_peer" => false,
-                    "verify_peer_name" => false,
-                ],
+        $options = ["ssl" =>
+            [
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ],
         ];
         return static::loadXml(file_get_contents($filename, false, stream_context_create($options)));
     }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sakila 2024 configuration file (Production)
+ * PHPMaker 2024 configuration file (Production)
  */
 
 return [

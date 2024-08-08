@@ -2241,7 +2241,7 @@ class RentalList extends Rental
                     if (!$ope || !$fldOpr) {
                         throw new \Exception("Unknown SQL operation for operator '" . $rule["operator"] . "'");
                     }
-                    if ($ope["nb_inputs"] > 0 && ($rule["value"] ?? false) || IsNullOrEmptyOperator($fldOpr)) {
+                    if ($ope["nb_inputs"] > 0 && isset($rule["value"]) && !EmptyValue($rule["value"]) || IsNullOrEmptyOperator($fldOpr)) {
                         $fldVal = $rule["value"];
                         if (is_array($fldVal)) {
                             $fldVal = $fld->isMultiSelect() ? implode(Config("MULTIPLE_OPTION_SEPARATOR"), $fldVal) : $fldVal[0];
@@ -2272,12 +2272,14 @@ class RentalList extends Rental
                                     if (is_array($fldVal2)) {
                                         $fldVal2 = implode(Config("MULTIPLE_OPTION_SEPARATOR"), $fldVal2);
                                     }
+                                    $fld->AdvancedSearch->SearchValue = ConvertSearchValue($fldVal, $fldOpr, $fld);
+                                    $fld->AdvancedSearch->SearchValue2 = ConvertSearchValue($fldVal2, $fldOpr, $fld);
                                     $parts[] = GetSearchSql(
                                         $fld,
-                                        ConvertSearchValue($fldVal, $fldOpr, $fld), // $fldVal
+                                        $fld->AdvancedSearch->SearchValue, // SearchValue
                                         $fldOpr,
                                         "", // $fldCond not used
-                                        ConvertSearchValue($fldVal2, $fldOpr, $fld), // $fldVal2
+                                        $fld->AdvancedSearch->SearchValue2, // SearchValue2
                                         "", // $fldOpr2 not used
                                         $this->Dbid
                                     );

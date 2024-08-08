@@ -1,9 +1,9 @@
 /*!
  * Core JavaScript for PHPMaker v24.13.0
- * Copyright (c) SakilaSoft. All rights reserved.
+ * Copyright (c) e.World Technology Limited. All rights reserved.
  */
 var ew = (function () {
-  "use strict";
+  'use strict';
 
   /**
    * Global dependencies.
@@ -85,14 +85,12 @@ var ew = (function () {
    */
   function executeCallbacks(args, depsNotFound) {
     // accept function as argument
-    if (args.call)
-      args = {
-        success: args,
-      };
+    if (args.call) args = {
+      success: args
+    };
 
     // success and error callbacks
-    if (depsNotFound.length) (args.error || devnull)(depsNotFound);
-    else (args.success || devnull)(args);
+    if (depsNotFound.length) (args.error || devnull)(depsNotFound);else (args.success || devnull)(args);
   }
 
   /**
@@ -105,15 +103,15 @@ var ew = (function () {
       async = args.async,
       maxTries = (args.numRetries || 0) + 1,
       beforeCallbackFn = args.before || devnull,
-      pathname = path.replace(/[\?|#].*$/, ""),
-      pathStripped = path.replace(/^(css|img)!/, ""),
+      pathname = path.replace(/[\?|#].*$/, ''),
+      pathStripped = path.replace(/^(css|img)!/, ''),
       // isLegacyIECss, //***
       e;
     numTries = numTries || 0;
     if (/(^css!|\.css$)/.test(pathname)) {
       // css
-      e = doc.createElement("link");
-      e.rel = "stylesheet";
+      e = doc.createElement('link');
+      e.rel = 'stylesheet';
       e.href = pathStripped;
 
       // tag IE9+
@@ -127,53 +125,49 @@ var ew = (function () {
       // }
     } else if (/(^img!|\.(png|gif|jpg|svg|webp)$)/.test(pathname)) {
       // image
-      e = doc.createElement("img");
+      e = doc.createElement('img');
       e.src = pathStripped;
     } else {
       // javascript
-      e = doc.createElement("script");
+      e = doc.createElement('script');
       e.src = path;
       e.async = async === undefined ? true : async;
     }
-    e.onload =
-      e.onerror =
-      e.onbeforeload =
-        function (ev) {
-          var result = ev.type[0];
+    e.onload = e.onerror = e.onbeforeload = function (ev) {
+      var result = ev.type[0];
 
-          // treat empty stylesheets as failures to get around lack of onerror
-          // support in IE9-11
-          // if (isLegacyIECss) { //***
-          //   try {
-          //     if (!e.sheet.cssText.length) result = 'e';
-          //   } catch (x) {
-          //     // sheets objects created from load errors don't allow access to
-          //     // `cssText` (unless error is Code:18 SecurityError)
-          //     if (x.code != 18) result = 'e';
-          //   }
-          // }
+      // treat empty stylesheets as failures to get around lack of onerror
+      // support in IE9-11
+      // if (isLegacyIECss) { //***
+      //   try {
+      //     if (!e.sheet.cssText.length) result = 'e';
+      //   } catch (x) {
+      //     // sheets objects created from load errors don't allow access to
+      //     // `cssText` (unless error is Code:18 SecurityError)
+      //     if (x.code != 18) result = 'e';
+      //   }
+      // }
 
-          // handle retries in case of load failure
-          if (result == "e") {
-            // increment counter
-            numTries += 1;
+      // handle retries in case of load failure
+      if (result == 'e') {
+        // increment counter
+        numTries += 1;
 
-            // exit function and try again
-            if (numTries < maxTries) {
-              return loadFile(path, callbackFn, args, numTries);
-            }
-          } else if (e.rel == "preload" && e.as == "style") {
-            // activate preloaded stylesheets
-            return (e.rel = "stylesheet"); // jshint ignore:line
-          }
+        // exit function and try again
+        if (numTries < maxTries) {
+          return loadFile(path, callbackFn, args, numTries);
+        }
+      } else if (e.rel == 'preload' && e.as == 'style') {
+        // activate preloaded stylesheets
+        return e.rel = 'stylesheet'; // jshint ignore:line
+      }
 
-          // execute callback
-          callbackFn(path, result, ev.defaultPrevented);
-        };
+      // execute callback
+      callbackFn(path, result, ev.defaultPrevented);
+    };
 
     // add to document (unless callback returns `false`)
-    if (beforeCallbackFn(path, e) !== false && e.tagName != "IMG")
-      doc.head.appendChild(e); //***
+    if (beforeCallbackFn(path, e) !== false && e.tagName != "IMG") doc.head.appendChild(e); //***
   }
 
   /**
@@ -193,13 +187,12 @@ var ew = (function () {
     // define callback function
     fn = function (path, result, defaultPrevented) {
       // handle error
-      if (result == "e") pathsNotFound.push(path);
+      if (result == 'e') pathsNotFound.push(path);
 
       // handle beforeload event. If defaultPrevented then that means the load
       // will be blocked (ex. Ghostery/ABP on Safari)
-      if (result == "b") {
-        if (defaultPrevented) pathsNotFound.push(path);
-        else return;
+      if (result == 'b') {
+        if (defaultPrevented) pathsNotFound.push(path);else return;
       }
       numWaiting--;
       if (!numWaiting) callbackFn(pathsNotFound);
@@ -236,31 +229,23 @@ var ew = (function () {
       }
     }
     function loadFn(resolve, reject) {
-      loadFiles(
-        paths,
-        function (pathsNotFound) {
-          // execute callbacks
-          executeCallbacks(args, pathsNotFound);
+      loadFiles(paths, function (pathsNotFound) {
+        // execute callbacks
+        executeCallbacks(args, pathsNotFound);
 
-          // resolve Promise
-          if (resolve) {
-            executeCallbacks(
-              {
-                success: resolve,
-                error: reject,
-              },
-              pathsNotFound
-            );
-          }
+        // resolve Promise
+        if (resolve) {
+          executeCallbacks({
+            success: resolve,
+            error: reject
+          }, pathsNotFound);
+        }
 
-          // publish bundle load event
-          publish(bundleId, pathsNotFound);
-        },
-        args
-      );
+        // publish bundle load event
+        publish(bundleId, pathsNotFound);
+      }, args);
     }
-    if (args.returnPromise) return new Promise(loadFn);
-    else loadFn();
+    if (args.returnPromise) return new Promise(loadFn);else loadFn();
   }
 
   /**
@@ -301,27 +286,16 @@ var ew = (function () {
   loadjs.isDefined = function isDefined(bundleId) {
     return bundleId in bundleIdCache;
   };
-  //***
+   //***
 
   function _typeof(o) {
     "@babel/helpers - typeof";
 
-    return (
-      (_typeof =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (o) {
-              return typeof o;
-            }
-          : function (o) {
-              return o &&
-                "function" == typeof Symbol &&
-                o.constructor === Symbol &&
-                o !== Symbol.prototype
-                ? "symbol"
-                : typeof o;
-            }),
-      _typeof(o)
-    );
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof(o);
   }
 
   function toPrimitive(t, r) {
@@ -353,7 +327,7 @@ var ew = (function () {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     Object.defineProperty(Constructor, "prototype", {
-      writable: false,
+      writable: false
     });
     return Constructor;
   }
@@ -365,7 +339,7 @@ var ew = (function () {
         value: value,
         enumerable: true,
         configurable: true,
-        writable: true,
+        writable: true
       });
     } else {
       obj[key] = value;
@@ -376,7 +350,7 @@ var ew = (function () {
   /**
    * Language class
    */
-  let Language = /*#__PURE__*/ (function () {
+  let Language = /*#__PURE__*/function () {
     /**
      * Constructor
      * @param {Object} data Phrases
@@ -395,47 +369,40 @@ var ew = (function () {
     var _proto = Language.prototype;
     _proto.phrase = function phrase(id) {
       var _this$data$id$toLower;
-      return (_this$data$id$toLower = this.data[id.toLowerCase()]) != null
-        ? _this$data$id$toLower
-        : id;
-    };
+      return (_this$data$id$toLower = this.data[id.toLowerCase()]) != null ? _this$data$id$toLower : id;
+    }
 
     /**
      * Get phrases
-     */
-    _createClass(Language, [
-      {
-        key: "phrases",
-        get: function () {
-          return this.data;
-        },
+     */;
+    _createClass(Language, [{
+      key: "phrases",
+      get: function () {
+        return this.data;
+      }
 
-        /**
-         * Set phrases
-         */ set: function (value) {
-          this.data = value;
-        },
-      },
-    ]);
+      /**
+       * Set phrases
+       */,
+      set: function (value) {
+        this.data = value;
+      }
+    }]);
     return Language;
-  })();
+  }();
 
   function _assertThisInitialized(self) {
     if (self === void 0) {
-      throw new ReferenceError(
-        "this hasn't been initialised - super() hasn't been called"
-      );
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
     return self;
   }
 
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf
-      ? Object.setPrototypeOf.bind()
-      : function _setPrototypeOf(o, p) {
-          o.__proto__ = p;
-          return o;
-        };
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
     return _setPrototypeOf(o, p);
   }
 
@@ -446,11 +413,9 @@ var ew = (function () {
   }
 
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf
-      ? Object.getPrototypeOf.bind()
-      : function _getPrototypeOf(o) {
-          return o.__proto__ || Object.getPrototypeOf(o);
-        };
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
     return _getPrototypeOf(o);
   }
 
@@ -467,9 +432,7 @@ var ew = (function () {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-      Boolean.prototype.valueOf.call(
-        Reflect.construct(Boolean, [], function () {})
-      );
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
     } catch (e) {
       return false;
@@ -497,9 +460,7 @@ var ew = (function () {
     _wrapNativeSuper = function _wrapNativeSuper(Class) {
       if (Class === null || !_isNativeFunction(Class)) return Class;
       if (typeof Class !== "function") {
-        throw new TypeError(
-          "Super expression must either be null or a function"
-        );
+        throw new TypeError("Super expression must either be null or a function");
       }
       if (typeof _cache !== "undefined") {
         if (_cache.has(Class)) return _cache.get(Class);
@@ -513,8 +474,8 @@ var ew = (function () {
           value: Wrapper,
           enumerable: false,
           writable: true,
-          configurable: true,
-        },
+          configurable: true
+        }
       });
       return _setPrototypeOf(Wrapper, Class);
     };
@@ -524,7 +485,7 @@ var ew = (function () {
   /**
    * Class selection list option
    */
-  let SelectionListOption = /*#__PURE__*/ (function () {
+  let SelectionListOption = /*#__PURE__*/function () {
     /**
      * Constructor
      * @param {*} text Inner HTML
@@ -545,113 +506,109 @@ var ew = (function () {
     /**
      * Get text
      */
-    _createClass(SelectionListOption, [
-      {
-        key: "text",
-        get: function () {
-          return this._innerHTML;
-        },
+    _createClass(SelectionListOption, [{
+      key: "text",
+      get: function () {
+        return this._innerHTML;
+      }
 
-        /**
-         * Set text
-         */ set: function (value) {
-          this._innerHTML = String(value);
-        },
+      /**
+       * Set text
+       */,
+      set: function (value) {
+        this._innerHTML = String(value);
+      }
 
-        /**
-         * Get inner HTML
-         */
-      },
-      {
-        key: "innerHTML",
-        get: function () {
-          return this._innerHTML;
-        },
+      /**
+       * Get inner HTML
+       */
+    }, {
+      key: "innerHTML",
+      get: function () {
+        return this._innerHTML;
+      }
 
-        /**
-         * Set inner HTML
-         */ set: function (value) {
-          this._innerHTML = value;
-        },
+      /**
+       * Set inner HTML
+       */,
+      set: function (value) {
+        this._innerHTML = value;
+      }
 
-        /**
-         * Get value
-         */
-      },
-      {
-        key: "value",
-        get: function () {
-          return this._value;
-        },
+      /**
+       * Get value
+       */
+    }, {
+      key: "value",
+      get: function () {
+        return this._value;
+      }
 
-        /**
-         * Set value
-         */ set: function (value) {
-          this._value = String(value);
-        },
+      /**
+       * Set value
+       */,
+      set: function (value) {
+        this._value = String(value);
+      }
 
-        /**
-         * Get default selected
-         */
-      },
-      {
-        key: "defaultSelected",
-        get: function () {
-          return this._defaultSelected;
-        },
+      /**
+       * Get default selected
+       */
+    }, {
+      key: "defaultSelected",
+      get: function () {
+        return this._defaultSelected;
+      }
 
-        /**
-         * Set default selected
-         */ set: function (value) {
-          this._defaultSelected = !!value;
-        },
+      /**
+       * Set default selected
+       */,
+      set: function (value) {
+        this._defaultSelected = !!value;
+      }
 
-        /**
-         * Get selection list
-         */
-      },
-      {
-        key: "selectionList",
-        get: function () {
-          return this._selectionList;
-        },
+      /**
+       * Get selection list
+       */
+    }, {
+      key: "selectionList",
+      get: function () {
+        return this._selectionList;
+      }
 
-        /**
-         * Set selection list
-         */ set: function (value) {
-          this._selectionList = value;
-        },
+      /**
+       * Set selection list
+       */,
+      set: function (value) {
+        this._selectionList = value;
+      }
 
-        /**
-         * Get selected
-         */
-      },
-      {
-        key: "selected",
-        get: function () {
-          var _this$_selected;
-          return (_this$_selected = this._selected) != null
-            ? _this$_selected
-            : this.defaultSelected;
-        },
+      /**
+       * Get selected
+       */
+    }, {
+      key: "selected",
+      get: function () {
+        var _this$_selected;
+        return (_this$_selected = this._selected) != null ? _this$_selected : this.defaultSelected;
+      }
 
-        /**
-         * Set selected
-         */ set: function (value) {
-          var _this$_selectionList;
-          this._selected = value;
-          (_this$_selectionList = this._selectionList) == null ||
-            _this$_selectionList.render();
-        },
-      },
-    ]);
+      /**
+       * Set selected
+       */,
+      set: function (value) {
+        var _this$_selectionList;
+        this._selected = value;
+        (_this$_selectionList = this._selectionList) == null || _this$_selectionList.render();
+      }
+    }]);
     return SelectionListOption;
-  })();
+  }();
 
   /**
    * Class Dynamic Selection List
    */
-  let SelectionList = /*#__PURE__*/ (function (_HTMLElement) {
+  let SelectionList = /*#__PURE__*/function (_HTMLElement) {
     _inheritsLoose(SelectionList, _HTMLElement);
     /**
      * Constructor
@@ -659,21 +616,9 @@ var ew = (function () {
     function SelectionList() {
       var _this;
       _this = _HTMLElement.call(this) || this;
-      _defineProperty(
-        _assertThisInitialized(_this),
-        "containerClass",
-        "d-sm-table"
-      );
-      _defineProperty(
-        _assertThisInitialized(_this),
-        "rowClass",
-        "d-sm-table-row"
-      );
-      _defineProperty(
-        _assertThisInitialized(_this),
-        "cellClass",
-        "d-sm-table-cell"
-      );
+      _defineProperty(_assertThisInitialized(_this), "containerClass", "d-sm-table");
+      _defineProperty(_assertThisInitialized(_this), "rowClass", "d-sm-table-row");
+      _defineProperty(_assertThisInitialized(_this), "cellClass", "d-sm-table-cell");
       /**
        * Options
        * @type {SelectionListOption[]}
@@ -689,135 +634,118 @@ var ew = (function () {
     var _proto = SelectionList.prototype;
     _proto.connectedCallback = function connectedCallback() {
       let value = this.getAttribute("value") || "",
-        values = this.multiple
-          ? value.split(ew.MULTIPLE_OPTION_SEPARATOR)
-          : [value];
+        values = this.multiple ? value.split(ew.MULTIPLE_OPTION_SEPARATOR) : [value];
       for (let val of values) this.add(val, "", true);
-    };
+    }
 
     /**
      * Target element id
-     */
+     */;
     /**
      * Add an option
      */
     _proto.add = function add(value, text, selected) {
       let option = new SelectionListOption(text, value, selected);
       this.addOption(option);
-    };
+    }
 
     /**
      * Add an option
-     */
+     */;
     _proto.addOption = function addOption(option) {
       if (option instanceof SelectionListOption) {
         option.selectionList = this;
-        let index = this.options.findIndex((opt) => opt.value == option.value);
-        if (index > -1) this.options[index] = option;
-        else this.options.push(option);
+        let index = this.options.findIndex(opt => opt.value == option.value);
+        if (index > -1) this.options[index] = option;else this.options.push(option);
       }
-    };
+    }
 
     /**
      * Remove an option
-     */
+     */;
     _proto.remove = function remove(index) {
       let option = this.options[index];
       if (option) this.options.splice(index, 1);
-    };
+    }
 
     /**
      * Remove all options
-     */
+     */;
     _proto.removeAll = function removeAll() {
       this.options.splice(0);
-    };
+    }
 
     /**
      * Clear selection
-     */
+     */;
     _proto.clear = function clear() {
       for (let option of this.options) option.selected = false;
       this.render();
-    };
+    }
 
     /**
      * Get random number
-     */
+     */;
     _proto.getRandom = function getRandom() {
       return Math.floor(Math.random() * (999999 - 100000)) + 100000;
-    };
+    }
 
     /**
      * Trigger change event
-     */
+     */;
     _proto.triggerChange = function triggerChange() {
       const event = new Event("change", {
         view: window,
         bubbles: true,
-        cancelable: false,
+        cancelable: false
       });
       this.dispatchEvent(event);
-    };
+    }
 
     /**
      * Check if invalid
-     */
+     */;
     _proto.isInvalid = function isInvalid(className) {
       return /\bis-invalid\b/.test(className);
-    };
+    }
 
     /**
      * Check class
-     */
-    _proto.attributeChangedCallback = function attributeChangedCallback(
-      name,
-      oldValue,
-      newValue
-    ) {
+     */;
+    _proto.attributeChangedCallback = function attributeChangedCallback(name, oldValue, newValue) {
       if (name == "class") {
-        if (
-          this.targetId &&
-          this.isInvalid(oldValue) != this.isInvalid(newValue)
-        ) {
+        if (this.targetId && this.isInvalid(oldValue) != this.isInvalid(newValue)) {
           // "is-invalid" toggled
           let target = document.getElementById(this.targetId),
             inputs = target.querySelectorAll("input"),
             isInvalid = this.isInvalid(newValue);
-          inputs.forEach((input) =>
-            input.classList.toggle("is-invalid", isInvalid)
-          );
+          inputs.forEach(input => input.classList.toggle("is-invalid", isInvalid));
         }
       } else if (name == "value") {
         this._internals.setFormValue(this.value);
         if (this.value !== "") this.classList.remove("is-invalid");
       }
-    };
+    }
 
     /**
      * Show loading
-     */
+     */;
     _proto.showLoading = function showLoading() {
       var _this$target;
-      (_this$target = this.target) == null ||
-        _this$target.appendChild(
-          document.createRange().createContextualFragment(ew.spinnerTemplate())
-        );
-    };
+      (_this$target = this.target) == null || _this$target.appendChild(document.createRange().createContextualFragment(ew.spinnerTemplate()));
+    }
 
     /**
      * Hide loading
-     */
+     */;
     _proto.hideLoading = function hideLoading() {
       var _this$target2;
-      (_this$target2 = this.target) == null ||
-        (_this$target2 = _this$target2.querySelector(".ew-loading")) == null ||
-        _this$target2.remove();
-    };
+      (_this$target2 = this.target) == null || (_this$target2 = _this$target2.querySelector(".ew-loading")) == null || _this$target2.remove();
+    }
 
     /**
      * Render checkbox or radio in the target element
-     */
+     */;
     _proto.render = function render() {
       let target = this.target,
         template = this.template;
@@ -837,14 +765,13 @@ var ew = (function () {
         isInvalid = this.classList.contains("is-invalid"),
         row;
       tbl.className = this.containerClass + " ew-item-container";
-      let options = this.options.filter((opt) => opt.value);
+      let options = this.options.filter(opt => opt.value);
       options.forEach((option, i) => {
         let clone = content.cloneNode(true),
           input = clone.querySelector("input"),
           label = clone.querySelector("label"),
           suffix = "_" + this.getRandom(); // Make sure the id is unique
-        input.name =
-          input.name + (input.type == "radio" ? radioSuffix : suffix);
+        input.name = input.name + (input.type == "radio" ? radioSuffix : suffix);
         input.id = input.id + suffix;
         input.value = option.value;
         input.setAttribute("data-index", i);
@@ -874,7 +801,7 @@ var ew = (function () {
           tbl.append(row);
         } else if (i == cnt - 1) {
           // Last
-          for (let j = (i % cols) + 1; j < cols; j++) {
+          for (let j = i % cols + 1; j < cols; j++) {
             let c = document.createElement("div");
             c.className = this.cellClass;
             row.append(c);
@@ -885,264 +812,234 @@ var ew = (function () {
       target.innerHTML = "";
       target.append(tbl);
       this.setAttribute("value", this.value);
-    };
+    }
 
     /**
      * Set focus
-     */
+     */;
     _proto.focus = function focus() {
       if (this.list) {
         var _this$target3;
-        (_this$target3 = this.target) == null ||
-          (_this$target3 = _this$target3.querySelector("input")) == null ||
-          _this$target3.focus();
+        (_this$target3 = this.target) == null || (_this$target3 = _this$target3.querySelector("input")) == null || _this$target3.focus();
       } else {
         _HTMLElement.prototype.focus.call(this);
       }
     };
-    _createClass(
-      SelectionList,
-      [
-        {
-          key: "form",
-          get:
-            /**
-             * Get form
-             */
-            function () {
-              return this._internals.form;
-            },
+    _createClass(SelectionList, [{
+      key: "form",
+      get:
+      /**
+       * Get form
+       */
+      function () {
+        return this._internals.form;
+      }
 
-          /**
-           * Get name
-           */
-        },
-        {
-          key: "name",
-          get: function () {
-            return this.getAttribute("name");
-          },
-        },
-        {
-          key: "targetId",
-          get: function () {
-            return this.getAttribute("data-target");
-          },
+      /**
+       * Get name
+       */
+    }, {
+      key: "name",
+      get: function () {
+        return this.getAttribute("name");
+      }
+    }, {
+      key: "targetId",
+      get: function () {
+        return this.getAttribute("data-target");
+      }
 
-          /**
-           * Target
-           */
-        },
-        {
-          key: "target",
-          get: function () {
-            return this.parentNode.querySelector("#" + this.targetId);
-          },
+      /**
+       * Target
+       */
+    }, {
+      key: "target",
+      get: function () {
+        return this.parentNode.querySelector("#" + this.targetId);
+      }
 
-          /**
-           * Template id
-           */
-        },
-        {
-          key: "templateId",
-          get: function () {
-            return this.getAttribute("data-template");
-          },
+      /**
+       * Template id
+       */
+    }, {
+      key: "templateId",
+      get: function () {
+        return this.getAttribute("data-template");
+      }
 
-          /**
-           * Template
-           */
-        },
-        {
-          key: "template",
-          get: function () {
-            return this.parentNode.querySelector("#" + this.templateId);
-          },
+      /**
+       * Template
+       */
+    }, {
+      key: "template",
+      get: function () {
+        return this.parentNode.querySelector("#" + this.templateId);
+      }
 
-          /**
-           * Input element id (for AutoSuggest)
-           */
-        },
-        {
-          key: "inputId",
-          get: function () {
-            return this.getAttribute("data-input");
-          },
+      /**
+       * Input element id (for AutoSuggest)
+       */
+    }, {
+      key: "inputId",
+      get: function () {
+        return this.getAttribute("data-input");
+      }
 
-          /**
-           * Input element (for AutoSuggest)
-           */
-        },
-        {
-          key: "input",
-          get: function () {
-            return this.parentNode.querySelector("#" + this.inputId);
-          },
+      /**
+       * Input element (for AutoSuggest)
+       */
+    }, {
+      key: "input",
+      get: function () {
+        return this.parentNode.querySelector("#" + this.inputId);
+      }
 
-          /**
-           * Is list
-           */
-        },
-        {
-          key: "list",
-          get: function () {
-            return this.options;
-          },
+      /**
+       * Is list
+       */
+    }, {
+      key: "list",
+      get: function () {
+        return this.options;
+      }
 
-          /**
-           * Number of columns
-           */
-        },
-        {
-          key: "columns",
-          get: function () {
-            var _ew;
-            if ((_ew = ew) != null && _ew.IS_MOBILE) {
-              return 1;
-            } else {
-              let cols = this.getAttribute("data-repeatcolumn");
-              return cols ? parseInt(cols, 10) : 1;
-            }
-          },
+      /**
+       * Number of columns
+       */
+    }, {
+      key: "columns",
+      get: function () {
+        var _ew;
+        if ((_ew = ew) != null && _ew.IS_MOBILE) {
+          return 1;
+        } else {
+          let cols = this.getAttribute("data-repeatcolumn");
+          return cols ? parseInt(cols, 10) : 1;
+        }
+      }
 
-          /**
-           * Length
-           */
-        },
-        {
-          key: "length",
-          get: function () {
-            return this.options.length;
-          },
+      /**
+       * Length
+       */
+    }, {
+      key: "length",
+      get: function () {
+        return this.options.length;
+      }
 
-          /**
-           * Get selected index
-           */
-        },
-        {
-          key: "selectedIndex",
-          get: function () {
-            return this.options.findIndex((option) => option.selected);
-          },
+      /**
+       * Get selected index
+       */
+    }, {
+      key: "selectedIndex",
+      get: function () {
+        return this.options.findIndex(option => option.selected);
+      }
 
-          /**
-           * Set selected index
-           */ set: function (index) {
-            let option = this.options[index];
-            if (option) {
-              this.options.forEach((option) => (option.selected = false));
-              option.selected = true;
-              this.render();
-            }
-          },
+      /**
+       * Set selected index
+       */,
+      set: function (index) {
+        let option = this.options[index];
+        if (option) {
+          this.options.forEach(option => option.selected = false);
+          option.selected = true;
+          this.render();
+        }
+      }
 
-          /**
-           * Type
-           */
-        },
-        {
-          key: "type",
-          get: function () {
-            return this.getAttribute("data-type") || this.getAttribute("type");
-          },
+      /**
+       * Type
+       */
+    }, {
+      key: "type",
+      get: function () {
+        return this.getAttribute("data-type") || this.getAttribute("type");
+      }
 
-          /**
-           * Multiple
-           */
-        },
-        {
-          key: "multiple",
-          get: function () {
-            return this.type == "select-multiple";
-          },
+      /**
+       * Multiple
+       */
+    }, {
+      key: "multiple",
+      get: function () {
+        return this.type == "select-multiple";
+      }
 
-          /**
-           * Get value
-           * @returns {string}
-           */
-        },
-        {
-          key: "value",
-          get: function () {
-            if (this.type == "select-one" || this.type == "select-multiple") {
-              return this.values.join(ew.MULTIPLE_OPTION_SEPARATOR || ",");
-            } else {
-              return this.getAttribute("value");
-            }
-          },
+      /**
+       * Get value
+       * @returns {string}
+       */
+    }, {
+      key: "value",
+      get: function () {
+        if (this.type == "select-one" || this.type == "select-multiple") {
+          return this.values.join(ew.MULTIPLE_OPTION_SEPARATOR || ",");
+        } else {
+          return this.getAttribute("value");
+        }
+      }
 
-          /**
-           * Get value as array
-           * @returns {string[]}
-           */ set:
-            /**
-             * Set value
-             * @param {string|string[]} val
-             */
-            function (val) {
-              if (this.type == "select-one") {
-                for (let option of this.options)
-                  option.selected = option.value == val;
-              } else if (this.type == "select-multiple") {
-                let ar;
-                if (Array.isArray(val)) {
-                  // Array
-                  ar = val.map((v) => (v != null ? v : String(v)));
-                } else {
-                  var _val;
-                  // String
-                  (_val = val) != null ? _val : (val = String(val));
-                  ar = val
-                    ? val.split(ew.MULTIPLE_OPTION_SEPARATOR || ",")
-                    : [];
-                }
-                for (let option of this.options)
-                  option.selected = ar.includes(String(option.value));
-              } else {
-                this.setAttribute("value", val);
-              }
-              this.render();
-            },
-        },
-        {
-          key: "values",
-          get: function () {
-            if (this.type == "select-one" || this.type == "select-multiple") {
-              return this.options
-                .filter((option) => option.selected)
-                .map((option) => option.value);
-            } else {
-              let val = this.getAttribute("value");
-              return val ? val.split(ew.MULTIPLE_OPTION_SEPARATOR || ",") : [];
-            }
-          },
-        },
-      ],
-      [
-        {
-          key: "observedAttributes",
-          get:
-            /**
-             * Specify observed attributes so that attributeChangedCallback will work
-             */
-            function () {
-              return ["class", "value"];
-            },
+      /**
+       * Get value as array
+       * @returns {string[]}
+       */,
+      set:
+      /**
+       * Set value
+       * @param {string|string[]} val
+       */
+      function (val) {
+        if (this.type == "select-one") {
+          for (let option of this.options) option.selected = option.value == val;
+        } else if (this.type == "select-multiple") {
+          let ar;
+          if (Array.isArray(val)) {
+            // Array
+            ar = val.map(v => v != null ? v : String(v));
+          } else {
+            var _val;
+            // String
+            (_val = val) != null ? _val : val = String(val);
+            ar = val ? val.split(ew.MULTIPLE_OPTION_SEPARATOR || ",") : [];
+          }
+          for (let option of this.options) option.selected = ar.includes(String(option.value));
+        } else {
+          this.setAttribute("value", val);
+        }
+        this.render();
+      }
+    }, {
+      key: "values",
+      get: function () {
+        if (this.type == "select-one" || this.type == "select-multiple") {
+          return this.options.filter(option => option.selected).map(option => option.value);
+        } else {
+          let val = this.getAttribute("value");
+          return val ? val.split(ew.MULTIPLE_OPTION_SEPARATOR || ",") : [];
+        }
+      }
+    }], [{
+      key: "observedAttributes",
+      get:
+      /**
+       * Specify observed attributes so that attributeChangedCallback will work
+       */
+      function () {
+        return ["class", "value"];
+      }
 
-          /**
-           * Form associcated
-           */
-        },
-        {
-          key: "formAssociated",
-          get: function () {
-            return true;
-          },
-        },
-      ]
-    );
+      /**
+       * Form associcated
+       */
+    }, {
+      key: "formAssociated",
+      get: function () {
+        return true;
+      }
+    }]);
     return SelectionList;
-  })(/*#__PURE__*/ _wrapNativeSuper(HTMLElement));
+  }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
 
   // AdminLTE
   loadjs.ready("adminlte", function () {
@@ -1151,12 +1048,8 @@ var ew = (function () {
     // Init Treeview/SidebarSearch after rendering menu
     $(window).off("load.lte.treeview").off("load.lte.sidebarsearch");
     loadjs.ready("templates", () => {
-      document
-        .querySelectorAll("[data-widget=treeview]")
-        .forEach((el) => $(el).Treeview(null)); // Use null so _init() will not be called again
-      document
-        .querySelectorAll("[data-widget=sidebar-search]")
-        .forEach((el) => $(el).SidebarSearch(null)); // Use null so _init() will not be called again
+      document.querySelectorAll("[data-widget=treeview]").forEach(el => $(el).Treeview(null)); // Use null so _init() will not be called again
+      document.querySelectorAll("[data-widget=sidebar-search]").forEach(el => $(el).SidebarSearch(null)); // Use null so _init() will not be called again
     });
 
     // Card Refresh
@@ -1171,9 +1064,7 @@ var ew = (function () {
 
   // Select2 templateResult/templateSelection
   let noop = () => {},
-    templateCallback = (o) =>
-      (o.element instanceof HTMLOptionElement ? o.element.innerHTML : "") ||
-      o.text;
+    templateCallback = o => (o.element instanceof HTMLOptionElement ? o.element.innerHTML : "") || o.text;
   let ew$1 = {
     SelectionListOption: SelectionListOption,
     PAGE_ID: "",
@@ -1219,16 +1110,16 @@ var ew = (function () {
       // Custom templates for Typeahead (notFound, pending, header, footer, suggestion)
       classNames: {
         menu: "tt-menu dropdown-menu",
-        input: "tt-input form-control",
+        input: 'tt-input form-control',
         dataset: "tt-dataset",
         suggestion: "tt-suggestion dropdown-item",
-        cursor: "active",
-      },
+        cursor: "active"
+      }
     },
     lightboxSettings: {
       transition: "none",
       photo: true,
-      opacity: 0.5,
+      opacity: 0.5
     },
     calendarOptions: {
       showViewPageOnEventClick: false,
@@ -1239,7 +1130,7 @@ var ew = (function () {
         headerToolbar: {
           start: "prev,next today",
           center: "title",
-          end: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          end: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
         },
         themeSystem: "bootstrap5",
         // Bootstrap5 theme with Font Awesome icons
@@ -1249,14 +1140,14 @@ var ew = (function () {
         dayMaxEventRows: true,
         timeZone: "UTC",
         droppable: true,
-        editable: true,
+        editable: true
       },
       eventPopoverOptions: {
         placement: "auto",
         trigger: "hover",
         // Either "hover" or "click"
-        html: true,
-      },
+        html: true
+      }
     },
     uploadOptions: {
       // See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
@@ -1264,7 +1155,7 @@ var ew = (function () {
         // See https://github.com/fengyuanchen/cropperjs/blob/e969348d313dafe3416926125b21388cc67cefb1/README.md#options
         autoCropArea: 1,
         // Define the automatic cropping area size (between 0 and 1)
-        viewMode: 2, // Restrict the minimum canvas size to fit within the container
+        viewMode: 2 // Restrict the minimum canvas size to fit within the container
       },
       cropperCanvasOptions: {
         // See https://github.com/fengyuanchen/cropperjs/blob/e969348d313dafe3416926125b21388cc67cefb1/README.md#getcroppedcanvasoptions
@@ -1273,12 +1164,12 @@ var ew = (function () {
         maxWidth: 4096,
         maxHeight: 4096,
         fillColor: "#fff",
-        imageSmoothingQuality: "high", // Quality of image smoothing
-      },
+        imageSmoothingQuality: "high" // Quality of image smoothing
+      }
     },
     importUploadOptions: {
       maxFileSize: 10000000,
-      maxNumberOfFiles: 10,
+      maxNumberOfFiles: 10
     },
     sweetAlertSettings: {
       showClass: {
@@ -1286,14 +1177,14 @@ var ew = (function () {
         // Disable popup animation
         backdrop: "swal2-noanimation",
         // Disable backdrop animation
-        icon: "", // Disable icon animation
+        icon: "" // Disable icon animation
       },
       hideClass: {
         popup: "",
         // Disable popup animation
         backdrop: "",
         // Disable backdrop animation
-        icon: "", // Disable icon animation
+        icon: "" // Disable icon animation
       },
       customClass: {
         container: "ew-swal2-container",
@@ -1313,8 +1204,8 @@ var ew = (function () {
         denyButton: "btn btn-danger ew-swal2-deny-button",
         cancelButton: "btn btn-secondary ew-swal2-cancel-button",
         loader: "ew-swal2-loader",
-        footer: "ew-swal2-footer",
-      },
+        footer: "ew-swal2-footer"
+      }
     },
     selectOptions: {
       // Select2 options
@@ -1322,7 +1213,7 @@ var ew = (function () {
       theme: "bootstrap5",
       width: "style",
       minimumResultsForSearch: 20,
-      escapeMarkup: (v) => v,
+      escapeMarkup: v => v,
       templateResult: templateCallback,
       templateSelection: templateCallback,
       // Custom options
@@ -1332,7 +1223,7 @@ var ew = (function () {
       containerClass: "d-sm-table",
       rowClass: "d-sm-table-row",
       cellClass: "d-sm-table-cell text-nowrap",
-      iconClass: "form-check-label",
+      iconClass: "form-check-label"
     },
     selectMinimumInputLength: 1,
     modalLookupOptions: {
@@ -1340,7 +1231,7 @@ var ew = (function () {
       allowClear: true,
       theme: "bootstrap5",
       width: "100%",
-      escapeMarkup: (v) => v,
+      escapeMarkup: v => v,
       templateResult: templateCallback,
       templateSelection: templateCallback,
       closeOnSelect: false,
@@ -1351,15 +1242,15 @@ var ew = (function () {
       debounce: 250,
       // For ajax.delay, see https://select2.org/data-sources/ajax#rate-limiting-requests
       draggableOptions: {
-        cursor: "grabbing",
-      }, // See https://api.jqueryui.com/draggable/
+        cursor: "grabbing"
+      } // See https://api.jqueryui.com/draggable/
     },
     filterOptions: {
       // Select2 options
       allowClear: true,
       theme: "bootstrap5",
       width: "100%",
-      escapeMarkup: (v) => v,
+      escapeMarkup: v => v,
       templateResult: templateCallback,
       templateSelection: templateCallback,
       closeOnSelect: false,
@@ -1377,30 +1268,30 @@ var ew = (function () {
       containerClass: "container",
       rowClass: "row",
       cellClass: "col text-nowrap",
-      iconClass: "form-check-label",
+      iconClass: "form-check-label"
     },
     importTabulatorOptions: {
-      height: 300,
+      height: 300
     },
     // See http://tabulator.info/docs/5.1/options
     toastOptions: {
-      position: "topRight", // topRight|topLeft|bottomRight|bottomLeft
+      position: "topRight" // topRight|topLeft|bottomRight|bottomLeft
     },
     tippyOptions: {
-      theme: "translucent",
+      theme: "translucent"
     },
     DOMPurifyConfig: {},
     sanitize: function (str) {
       return DOMPurify.sanitize(str, this.DOMPurifyConfig);
     },
     draggableOptions: {
-      cursor: "grabbing",
+      cursor: "grabbing"
     },
     // See https://api.jqueryui.com/draggable/
     queryBuilderOptions: {
       allowViewRules: false,
       // Show view rules button
-      allowClearRules: false, // Show clear rules button
+      allowClearRules: false // Show clear rules button
     },
     // Query builder options
     queryBuilderPlugins: {
@@ -1408,7 +1299,7 @@ var ew = (function () {
       "filter-description": null,
       "unique-filter": null,
       // "invert": null,
-      "not-group": null,
+      "not-group": null
     },
     queryBuilderErrorClass: "invalid-tooltip",
     // "invalid-tooltip" or "invalid-feedback"
@@ -1417,12 +1308,12 @@ var ew = (function () {
     tooltipOptions: {
       placement: "bottom",
       customClass: "ew-custom-tooltip",
-      sanitizeFn: null,
+      sanitizeFn: null
     },
     popoverOptions: {
       html: true,
       customClass: "ew-custom-popover",
-      sanitizeFn: null,
+      sanitizeFn: null
     },
     PDFObjectOptions: {},
     chartConfig: {},
@@ -1453,42 +1344,37 @@ var ew = (function () {
     submitAction: noop,
     addGridRow: noop,
     confirmDelete: () => false,
-    deleteGridRow: () => false,
+    deleteGridRow: () => false
   };
 
   /**
    * Color mode toggler (based on https://getbootstrap.com/docs/5.3/customize/color-modes/#javascript)
    */
   ew$1.getStoredTheme = () => localStorage.getItem("theme");
-  ew$1.setStoredTheme = (theme) => localStorage.setItem("theme", theme);
+  ew$1.setStoredTheme = theme => localStorage.setItem("theme", theme);
   ew$1.getPreferredTheme = () => {
     const storedTheme = ew$1.getStoredTheme();
     if (storedTheme) return storedTheme;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   };
   ew$1.isDark = () => ew$1.getPreferredTheme() == "dark";
-  ew$1.updateIframes = () =>
-    document.querySelectorAll(".ew-iframe").forEach((iframe) => {
-      const theme = ew$1.getPreferredTheme();
-      const el = iframe.contentWindow.document.documentElement;
-      el.setAttribute("data-bs-theme", theme); // For Bootstrap 5.3+
-      el.classList.toggle("dark", theme == "dark"); // For Tailwind
-    });
-  ew$1.setTheme = (theme) => {
+  ew$1.updateIframes = () => document.querySelectorAll(".ew-iframe").forEach(iframe => {
+    const theme = ew$1.getPreferredTheme();
+    const el = iframe.contentWindow.document.documentElement;
+    el.setAttribute("data-bs-theme", theme); // For Bootstrap 5.3+
+    el.classList.toggle("dark", theme == "dark"); // For Tailwind
+  });
+  ew$1.setTheme = theme => {
     if (theme !== "light" && theme !== "dark")
       // Auto
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     if (new URL(window.location).searchParams.get("export") == "print")
       // Print
       theme = "light";
     document.documentElement.setAttribute("data-bs-theme", theme); // For Bootstrap 5.3+
     ew$1.updateIframes();
     const event = new CustomEvent("changetheme", {
-      detail: theme,
+      detail: theme
     });
     document.dispatchEvent(event);
   };
@@ -1501,12 +1387,10 @@ var ew = (function () {
     if (!themeSwitcher) return;
     const themeSwitcherText = document.querySelector("#bd-theme-text");
     const activeThemeIcon = document.querySelector(".theme-icon-active");
-    const btnToActive = document.querySelector(
-      "[data-bs-theme-value='" + theme + "']"
-    );
+    const btnToActive = document.querySelector("[data-bs-theme-value='" + theme + "']");
     if (!btnToActive) return;
     const activeBtnIcon = btnToActive.querySelector(".theme-icon");
-    document.querySelectorAll("[data-bs-theme-value]").forEach((element) => {
+    document.querySelectorAll("[data-bs-theme-value]").forEach(element => {
       element.classList.remove("active");
       element.setAttribute("aria-pressed", "false");
     });
@@ -1514,35 +1398,25 @@ var ew = (function () {
     btnToActive.setAttribute("aria-pressed", "true");
     let classes = Array.from(activeThemeIcon.classList.values());
     for (const cls of classes) {
-      if (cls.startsWith("fa-") || cls.startsWith("bi-"))
-        activeThemeIcon.classList.remove(cls);
+      if (cls.startsWith("fa-") || cls.startsWith("bi-")) activeThemeIcon.classList.remove(cls);
     }
-    let iterator =
-      activeBtnIcon == null ? void 0 : activeBtnIcon.classList.values();
+    let iterator = activeBtnIcon == null ? void 0 : activeBtnIcon.classList.values();
     for (const cls of iterator) {
-      if (cls.startsWith("fa-") || cls.startsWith("bi-"))
-        activeThemeIcon.classList.add(cls);
+      if (cls.startsWith("fa-") || cls.startsWith("bi-")) activeThemeIcon.classList.add(cls);
     }
-    const themeSwitcherLabel =
-      themeSwitcherText.textContent +
-      " (" +
-      btnToActive.dataset.bsThemeValue +
-      ")";
+    const themeSwitcherLabel = themeSwitcherText.textContent + " (" + btnToActive.dataset.bsThemeValue + ")";
     themeSwitcher.setAttribute("aria-label", themeSwitcherLabel);
     if (focus) themeSwitcher.focus();
   };
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", () => {
-      const storedTheme = ew$1.getStoredTheme();
-      if (storedTheme !== "light" && storedTheme !== "dark")
-        ew$1.setTheme(ew$1.getPreferredTheme());
-    });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    const storedTheme = ew$1.getStoredTheme();
+    if (storedTheme !== "light" && storedTheme !== "dark") ew$1.setTheme(ew$1.getPreferredTheme());
+  });
   loadjs.ready("template.colormodes", () => {
     const theme = ew$1.getPreferredTheme();
     ew$1.showActiveTheme(theme);
     ew$1.updateIframes();
-    document.querySelectorAll("[data-bs-theme-value]").forEach((toggle) => {
+    document.querySelectorAll("[data-bs-theme-value]").forEach(toggle => {
       toggle.addEventListener("click", () => {
         let theme = toggle.getAttribute("data-bs-theme-value");
         ew$1.setStoredTheme(theme);
@@ -1557,7 +1431,7 @@ var ew = (function () {
    *
    * @param {HTMLElement} el - Element
    */
-  ew$1.initPanel = (el) => {
+  ew$1.initPanel = el => {
     if (el.dataset.isset) return;
     let html = "";
     for (let child of el.children) {
@@ -1569,23 +1443,12 @@ var ew = (function () {
   };
 
   // Panel selectors
-  ew$1.panelSelectors = [
-    ".user-panel",
-    ".ew-grid-upper-panel",
-    ".ew-grid-lower-panel",
-    ".ew-multi-column-row > * > .card > .card-header",
-    ".ew-multi-column-row > * > .card > .card-footer",
-  ];
+  ew$1.panelSelectors = [".user-panel", ".ew-grid-upper-panel", ".ew-grid-lower-panel", ".ew-multi-column-row > * > .card > .card-header", ".ew-multi-column-row > * > .card > .card-footer"];
 
   /**
    * Init panels/headers/footers
    */
-  ew$1.initPanels = (el) =>
-    el == null
-      ? void 0
-      : el
-          .querySelectorAll(ew$1.panelSelectors.join(","))
-          .forEach(ew$1.initPanel);
+  ew$1.initPanels = el => el == null ? void 0 : el.querySelectorAll(ew$1.panelSelectors.join(",")).forEach(ew$1.initPanel);
 
   // Request animation frame to init panels
   let _initPanelsReq;
@@ -1593,10 +1456,7 @@ var ew = (function () {
     ew$1.initPanels(document);
     _initPanelsReq = requestAnimationFrame(_initPanels);
   };
-  loadjs.ready(
-    "wrapper",
-    () => (_initPanelsReq = requestAnimationFrame(_initPanels))
-  );
+  loadjs.ready("wrapper", () => _initPanelsReq = requestAnimationFrame(_initPanels));
 
   // DOM content loaded
   document.addEventListener("DOMContentLoaded", () => {
@@ -1616,39 +1476,28 @@ var ew = (function () {
    */
   ew$1.loadjs = function (paths, arg1, arg2) {
     let bundleId = arg1 != null && arg1.trim ? arg1 : "";
-    if (bundleId && bundleId != "load" && !ew$1.bundleIds.includes(bundleId))
-      ew$1.bundleIds.push(bundleId);
+    if (bundleId && bundleId != "load" && !ew$1.bundleIds.includes(bundleId)) ew$1.bundleIds.push(bundleId);
     let args = (bundleId ? arg2 : arg1) || {};
     paths = Array.isArray(paths) ? paths : [paths];
-    paths = paths.filter(
-      (path) => path && (!Array.isArray(path) || path.length)
-    ); // Valid paths
+    paths = paths.filter(path => path && (!Array.isArray(path) || path.length)); // Valid paths
     if (args.call)
       // Accept function as argument
       args = {
-        success: args,
+        success: args
       };
     args = {
       ...args,
-      returnPromise: true,
+      returnPromise: true
     };
     let clone = {
-        ...args,
+        ...args
       },
       p = Promise.resolve();
     delete clone.success;
     paths.forEach((path, i, ar) => {
       if (i == ar.length - 1)
         // Last
-        p = p.then(() =>
-          loadjs(path, bundleId || args, bundleId ? args : null).catch(
-            (paths) => console.log(paths)
-          )
-        );
-      else
-        p = p.then(() =>
-          loadjs(path, clone).catch((paths) => console.log(paths))
-        );
+        p = p.then(() => loadjs(path, bundleId || args, bundleId ? args : null).catch(paths => console.log(paths)));else p = p.then(() => loadjs(path, clone).catch(paths => console.log(paths)));
     });
     return p;
   };
@@ -1665,8 +1514,7 @@ var ew = (function () {
    */
   ew$1.ready = function (deps, paths, arg1, arg2) {
     let bundleId = arg1 != null && arg1.trim ? arg1 : "";
-    if (bundleId && bundleId != "load" && !ew$1.bundleIds.includes(bundleId))
-      ew$1.bundleIds.push(bundleId);
+    if (bundleId && bundleId != "load" && !ew$1.bundleIds.includes(bundleId)) ew$1.bundleIds.push(bundleId);
     loadjs.ready(deps, function () {
       ew$1.loadjs(paths, arg1, arg2);
     });
@@ -1704,11 +1552,7 @@ var ew = (function () {
       for (let prop in obj) {
         if (obj.hasOwnProperty(prop)) {
           // If property is an object, merge properties
-          if (
-            typeof obj[prop] == "object" &&
-            !Array.isArray(obj[prop]) &&
-            obj[prop] !== null
-          ) {
+          if (typeof obj[prop] == "object" && !Array.isArray(obj[prop]) && obj[prop] !== null) {
             // Note: Type of array/null is "object"
             extended[prop] = deepAssign(overwrite, extended[prop], obj[prop]);
           } else {
@@ -1737,11 +1581,9 @@ var ew = (function () {
   /**
    * Register 'ew' as global helper
    */
-  loadjs.ready("jsrender", () =>
-    $.views.helpers({
-      ew: ew$1,
-    })
-  );
+  loadjs.ready("jsrender", () => $.views.helpers({
+    ew: ew$1
+  }));
 
   /**
    * Render client side template, use the HTML in DOM and return the HTML
@@ -1756,7 +1598,7 @@ var ew = (function () {
     if (!$tmpl.render) return;
     let args = {
       $template: $tmpl,
-      data: data,
+      data: data
     };
     $(document).trigger("rendertemplate", [args]);
     let html = $tmpl.render(args.data, ew$1.jsRenderHelpers),
@@ -1764,11 +1606,9 @@ var ew = (function () {
       target = args.$template.data("target");
     if (html && method && target)
       // Render by specified method to target
-      $(html)[method](target);
-    else if (html && !method && target)
+      $(html)[method](target);else if (html && !method && target)
       // No method, render as inner HTML of target
-      $(target).html(html);
-    else if (html && !method && !target)
+      $(target).html(html);else if (html && !method && !target)
       // No method and target, render locally
       $tmpl.parent().append(html);
     loadjs.done("template." + $tmpl.data("name"));
@@ -1783,59 +1623,43 @@ var ew = (function () {
   ew$1.renderJsTemplates = function (e) {
     var _e$target;
     let $ = jQuery,
-      el =
-        (_e$target = e == null ? void 0 : e.target) != null
-          ? _e$target
-          : document;
-    Array.from(el.querySelectorAll(".ew-js-template"))
-      .sort((a, b) => {
-        a = parseInt(a.dataset.seq, 10) || 0;
-        b = parseInt(b.dataset.seq, 10) || 0;
-        return a - b;
-      })
-      .forEach((tmpl) => {
-        let name = tmpl.dataset.name,
-          data = tmpl.dataset.data;
-        if (data && typeof data == "string") {
-          data = ew$1.vars[data] || window[data]; // Get data from ew.vars or global
-          if (!data)
-            // Data not found
-            return;
-        }
-        if (name) {
-          if (!$.render[name]) {
-            // Render the first template of any named template only
-            $.templates(name, tmpl.text);
-            ew$1.renderTemplate($(tmpl), data);
-          }
-        } else {
+      el = (_e$target = e == null ? void 0 : e.target) != null ? _e$target : document;
+    Array.from(el.querySelectorAll(".ew-js-template")).sort((a, b) => {
+      a = parseInt(a.dataset.seq, 10) || 0;
+      b = parseInt(b.dataset.seq, 10) || 0;
+      return a - b;
+    }).forEach(tmpl => {
+      let name = tmpl.dataset.name,
+        data = tmpl.dataset.data;
+      if (data && typeof data == "string") {
+        data = ew$1.vars[data] || window[data]; // Get data from ew.vars or global
+        if (!data)
+          // Data not found
+          return;
+      }
+      if (name) {
+        if (!$.render[name]) {
+          // Render the first template of any named template only
+          $.templates(name, tmpl.text);
           ew$1.renderTemplate($(tmpl), data);
         }
-      });
+      } else {
+        ew$1.renderTemplate($(tmpl), data);
+      }
+    });
     loadjs.done("templates");
   };
 
   // Overlay template
   ew$1.overlayTemplate = function () {
-    return (
-      '<div class="overlay"><div class="' +
-      this.spinnerClass +
-      '" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">' +
-      this.language.phrase("Loading") +
-      "</span></div></div>"
-    );
+    return '<div class="overlay"><div class="' + this.spinnerClass + '" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">' + this.language.phrase("Loading") + '</span></div></div>';
   };
 
   // Spinner template
   ew$1.spinnerTemplate = function () {
-    return (
-      '<div class="' +
-      this.spinnerClass +
-      ' m-3 ew-loading" role="status"><span class="visually-hidden">' +
-      this.language.phrase("Loading") +
-      "</span></div>"
-    );
+    return '<div class="' + this.spinnerClass + ' m-3 ew-loading" role="status"><span class="visually-hidden">' + this.language.phrase("Loading") + '</span></div>';
   };
 
   return ew$1;
+
 })();

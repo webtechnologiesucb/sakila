@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sakila 2024 constants
+ * PHPMaker 2024 constants
  */
 
 namespace PHPMaker2024\Sakila;

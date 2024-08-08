@@ -2,7 +2,7 @@
 
 /**
  * SAML2 Provider for Hybridauth
- * Copyright (c) SakilaSoft. All rights reserved.
+ * Copyright (c) e.World Technology Limited. All rights reserved.
  */
 
 namespace PHPMaker2024\Sakila;
@@ -374,7 +374,7 @@ class Saml2 extends AbstractAdapter implements AdapterInterface
             $props = Collection::make(array_column($reflect->getProperties(ReflectionProperty::IS_PUBLIC), 'name'));
             foreach ($attributes as $key => $value) {
                 $key = self::$attributeMap[$key] ?? $key;
-                $prop = $props->first(fn($v, $k) => SameText($v, $key));
+                $prop = $props->first(fn ($v, $k) => SameText($v, $key));
                 if ($prop) {
                     $userProfile->$prop = $value;
                 } else {

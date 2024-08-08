@@ -609,6 +609,46 @@ class AdvancedSecurity
             $this->loginUser(...$userProfile->getLoginArguments());
         }
 
+        // Check system admin first
+        if (!$valid) {
+            $checkUserNameOnly = $customValid || // Custom validated
+                Config("OTP_ONLY") && Config("USE_TWO_FACTOR_AUTHENTICATION") && Config("FORCE_TWO_FACTOR_AUTHENTICATION") && !EmptyValue(Config("ADMIN_OTP_ACCOUNT")); // OTP only + 2FA + OTP account enabled
+            if (in_array($loginType, ["cookie", "token"])) {
+                $userName = DecodeJwt($pwd)["username"] ?? "";
+                $checkUserNameOnly = $checkUserNameOnly || !EmptyValue($userName) && $userName == $usr;
+            }
+            $valid = $this->validateSysAdmin($usr, $pwd, $checkUserNameOnly);
+
+            // Set user name
+            if ($valid) {
+                $userProfile->setUserName($usr)->loadFromStorage();
+            }
+
+            // Check two factor authentication for system admin
+            if (
+                $valid &&
+                Config("USE_TWO_FACTOR_AUTHENTICATION") &&
+                Config("FORCE_TWO_FACTOR_AUTHENTICATION") &&
+                in_array(strtolower(Config("TWO_FACTOR_AUTHENTICATION_TYPE")), ["email", "sms"]) &&
+                !EmptyValue(Config("ADMIN_OTP_ACCOUNT")) &&
+                !$userProfile->hasUserSecret(true)
+            ) {
+                $this->isSysAdmin = true;
+                $_SESSION[SESSION_SYS_ADMIN] = 1; // System Administrator
+                return $valid;
+            }
+            if ($valid) {
+                $this->isLoggedIn = true;
+                $_SESSION[SESSION_STATUS] = "login";
+                $this->isSysAdmin = true;
+                $_SESSION[SESSION_SYS_ADMIN] = 1; // System Administrator
+                $userProfile->setUserName($Language->phrase("UserAdministrator"))
+                    ->setUserID(self::ADMIN_USER_ID)
+                    ->setUserLevel(self::ADMIN_USER_LEVEL_ID);
+                $this->loginUser(...$userProfile->getLoginArguments());
+            }
+        }
+
         // Check other users
         if (!$valid) {
             // Find user

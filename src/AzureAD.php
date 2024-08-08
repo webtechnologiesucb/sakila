@@ -2,8 +2,8 @@
 
 /**
  * Azure AD provider for Hybridauth
- * Copyright (c) SakilaSoft. All rights reserved.
- */
+ * Copyright (c) e.World Technology Limited. All rights reserved.
+*/
 
 namespace PHPMaker2024\Sakila;
 
@@ -80,11 +80,11 @@ class AzureAD extends OAuth2
         if (
             !empty($userInfoUrl) &&
             !isset(
-            $userProfile->displayName,
-            $userProfile->photoURL,
-            $userProfile->email,
-            $userProfile->data["groups"]
-        )
+                $userProfile->displayName,
+                $userProfile->photoURL,
+                $userProfile->email,
+                $userProfile->data["groups"]
+            )
         ) {
             $profile = new Data\Collection($this->apiRequest($userInfoUrl));
             if (empty($userProfile->displayName)) {

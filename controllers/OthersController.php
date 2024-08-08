@@ -35,6 +35,13 @@ class OthersController extends ControllerBase
         return $this->runPage($request, $response, $args, "Login");
     }
 
+    // changepassword
+    #[Map(["GET","POST","OPTIONS"], "/changepassword", [PermissionMiddleware::class], "changepassword")]
+    public function changepassword(Request $request, Response $response, array $args): Response
+    {
+        return $this->runPage($request, $response, $args, "ChangePassword");
+    }
+
     // logout
     #[Map(["GET","POST","OPTIONS"], "/logout", [PermissionMiddleware::class], "logout")]
     public function logout(Request $request, Response $response, array $args): Response

@@ -66,6 +66,7 @@ C:\laragon\www\sakila\models\CategoryDelete.php
 C:\laragon\www\sakila\models\CategoryEdit.php
 C:\laragon\www\sakila\models\CategoryList.php
 C:\laragon\www\sakila\models\CategoryView.php
+C:\laragon\www\sakila\models\ChangePassword.php
 C:\laragon\www\sakila\models\City.php
 C:\laragon\www\sakila\models\CityAdd.php
 C:\laragon\www\sakila\models\CityDelete.php
@@ -341,6 +342,7 @@ C:\laragon\www\sakila\views\CategoryDelete.php
 C:\laragon\www\sakila\views\CategoryEdit.php
 C:\laragon\www\sakila\views\CategoryList.php
 C:\laragon\www\sakila\views\CategoryView.php
+C:\laragon\www\sakila\views\ChangePassword.php
 C:\laragon\www\sakila\views\CityAdd.php
 C:\laragon\www\sakila\views\CityDelete.php
 C:\laragon\www\sakila\views\CityEdit.php

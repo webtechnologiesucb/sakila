@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Sakila 2024 functions
- * Copyright (c) SakilaSoft. All rights reserved.
- */
+ * PHPMaker 2024 functions
+ * Copyright (c) e.World Technology Limited. All rights reserved.
+*/
 
 namespace PHPMaker2024\Sakila;
 
@@ -512,8 +512,8 @@ function CreateJwt(array $values, int $expiry = 0)
 function DecodeJwt(string $token)
 {
     try {
-        $payload = (array) \Firebase\JWT\JWT::decode($token, new \Firebase\JWT\Key(Config("JWT.SECRET_KEY"), Config("JWT.ALGORITHM")));
-        return (array) $payload["values"];
+        $payload = (array)\Firebase\JWT\JWT::decode($token, new \Firebase\JWT\Key(Config("JWT.SECRET_KEY"), Config("JWT.ALGORITHM")));
+        return (array)$payload["values"];
     } catch (\Exception $e) {
         if (Config("DEBUG")) {
             return ["failureMessage" => $e->getMessage()];
@@ -551,9 +551,9 @@ function UseSession($request)
 {
     $prefix = Config("CSRF_PREFIX");
     if (
-        !Collection::make($request->getParsedBody() ?? [])->keys()->contains(fn($v) => StartsString($prefix, $v)) &&
-        !Collection::make($request->getQueryParams() ?? [])->keys()->contains(fn($v) => StartsString($prefix, $v)) &&
-        !Collection::make($request->getHeaders() ?? [])->keys()->contains(fn($v) => StartsString(HeaderCase($prefix), HeaderCase($v))) &&
+        !Collection::make($request->getParsedBody() ?? [])->keys()->contains(fn ($v) => StartsString($prefix, $v)) &&
+        !Collection::make($request->getQueryParams() ?? [])->keys()->contains(fn ($v) => StartsString($prefix, $v)) &&
+        !Collection::make($request->getHeaders() ?? [])->keys()->contains(fn ($v) => StartsString(HeaderCase($prefix), HeaderCase($v))) &&
         !$request->hasHeader(Config("JWT.AUTH_HEADER"))
     ) {
         return false;
@@ -608,7 +608,7 @@ function IsOptions()
  * @param string $name Name of parameter
  * @param mixed $default Default value if name not found
  * @return string
- */
+*/
 function Get($name, $default = null)
 {
     return $GLOBALS["Request"]?->getQueryParam($name, $default) ?? $_GET[$name] ?? $default;
@@ -620,7 +620,7 @@ function Get($name, $default = null)
  * @param string $name Name of paramter
  * @param mixed $default Default value if name not found
  * @return string
- */
+*/
 function Post($name, $default = null)
 {
     return $GLOBALS["Request"]?->getParsedBodyParam($name, $default) ?? $_POST[$name] ?? $default;
@@ -632,7 +632,7 @@ function Post($name, $default = null)
  * @param string $name Name of paramter
  * @param mixed $default Default value if name not found
  * @return string
- */
+*/
 function Param($name, $default = null)
 {
     return $GLOBALS["Request"]?->getParam($name, $default) ?? $_POST[$name] ?? $_GET[$name] ?? $default;
@@ -685,7 +685,7 @@ function Route($idx = null)
             if (is_int($idx)) {
                 $uri = ServerVar("REQUEST_URI"); // e.g. /basepath/api/file
                 $basePath = BasePath(true); // e.g. /basepath/api/
-                $uri = preg_replace("/^" . preg_quote($basePath, "/") . "/", "", $uri);
+                $uri = preg_replace("/^" . preg_quote($basePath, "/")  . "/", "", $uri);
                 return explode("/", ltrim($uri, "/"))[$idx] ?? null;
             }
             return null;
@@ -703,7 +703,7 @@ function Route($idx = null)
                 && ContainsString($value, "/")
             ) {
                 $value = implode(Config("COMPOSITE_KEY_SEPARATOR"), explode("/", $value));
-                // Composite key (for API /(view|edit|delete)/{table}[/{params:.*}])
+            // Composite key (for API /(view|edit|delete)/{table}[/{params:.*}])
             } elseif (
                 is_int($idx) && $idx >= 2
                 && in_array($RouteValues[0] ?? "", ["view", "edit", "delete"])
@@ -711,7 +711,7 @@ function Route($idx = null)
             ) {
                 $keys = explode(Config("COMPOSITE_KEY_SEPARATOR"), $RouteValues["params"]);
                 return $keys[$idx - 2] ?? null; // For Route(i + 2) where i is 0-based index of keyFields
-                // Composite key (for API /export/{param}[/{table}[/{key:.*}]])
+            // Composite key (for API /export/{param}[/{table}[/{key:.*}]])
             } elseif (
                 is_int($idx) && $idx >= 3
                 && ($RouteValues[0] ?? "") == "export"
@@ -1046,7 +1046,7 @@ function CurrentTableName()
 function GetTableName($tblVar)
 {
     global $USER_LEVEL_TABLES;
-    $table = Collection::make($USER_LEVEL_TABLES)->first(fn($tbl) => $tbl[1] == $tblVar);
+    $table = Collection::make($USER_LEVEL_TABLES)->first(fn ($tbl) => $tbl[1] == $tblVar);
     return $table[0] ?? $tblVar; // Return table name if found
 }
 
@@ -1144,8 +1144,8 @@ function GetMultiValueFilter($expression, $val, $dbid, $opr = "=")
     $ar = is_array($val) ? $val : [$val];
     $parts = array_map(
         fn($v) => $dbtype == "MYSQL"
-        ? ($opr == "=" ? "" : "NOT ") . "FIND_IN_SET('" . AdjustSql($v, $dbid) . "', " . $expression . ")" // MySQL, use FIND_IN_SET(val, expr)
-        : GetMultiSearchSqlFilter($expression, $opr, $v, $dbid, Config("MULTIPLE_OPTION_SEPARATOR")), // Other database type, use (expr = 'val' OR expr LIKE 'val,%' OR expr LIKE '%,val,%' OR expr LIKE '%,val')
+            ? ($opr == "=" ? "" : "NOT ") . "FIND_IN_SET('" . AdjustSql($v, $dbid) . "', " . $expression . ")" // MySQL, use FIND_IN_SET(val, expr)
+            : GetMultiSearchSqlFilter($expression, $opr, $v, $dbid, Config("MULTIPLE_OPTION_SEPARATOR")), // Other database type, use (expr = 'val' OR expr LIKE 'val,%' OR expr LIKE '%,val,%' OR expr LIKE '%,val')
         $ar
     );
     return implode($opr == "=" ? " OR " : " AND ", $parts);
@@ -1407,7 +1407,7 @@ function GetFileViewTag(&$fld, $val, $tooltip = false)
         $skipImage = $Page && ($Page->isExport("excel") && !Config("USE_PHPEXCEL") || $Page->isExport("word") && !Config("USE_PHPWORD"));
         $showTempImage = $Page && ($Page->TableType == "REPORT"
             && ($Page->isExport("excel") && Config("USE_PHPEXCEL")
-                || $Page->isExport("word") && Config("USE_PHPWORD"))
+            || $Page->isExport("word") && Config("USE_PHPWORD"))
             || $Page->TableType != "REPORT" && ($Page->Export == "pdf" || $Page->Export == "email"));
         foreach ($wrkfiles as $wrkfile) {
             $tag = "";
@@ -1935,12 +1935,12 @@ function ConnectDb($info)
             ];
             if (
                 defined("PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT") &&
-                Collection::make($info["driverOptions"] ?? [])->keys()->contains(fn($v) => in_array($v, $keys))
+                Collection::make($info["driverOptions"] ?? [])->keys()->contains(fn ($v) => in_array($v, $keys))
             ) { // SSL
                 $info["driverOptions"][\PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] ??= false;
             }
         } elseif ($info["driver"] == "mysqli") {
-            if (Collection::make($info)->keys()->contains(fn($v) => StartsString("ssl_", $v))) { // SSL
+            if (Collection::make($info)->keys()->contains(fn ($v) => StartsString("ssl_", $v))) { // SSL
                 $info["driverOptions"]["flags"] = ($info["driverOptions"]["flags"] ?? 0) | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
             }
         }
@@ -1963,7 +1963,7 @@ function ConnectDb($info)
         } elseif ($info["driver"] == "pdo_sqlsrv") {
             $info["driverOptions"]["TransactionIsolation"] = "READ_UNCOMMITTED"; // PDO::SQLSRV_TXN_READ_UNCOMMITTED
             //if (IS_UTF8) { // Not supported for pdo_sqlsrv
-            //$info["driverOptions"]["CharacterSet"] = "UTF-8";
+                //$info["driverOptions"]["CharacterSet"] = "UTF-8";
             //}
         }
     } elseif ($dbtype == "SQLITE") {
@@ -2923,7 +2923,7 @@ function FormatDateTime($ts, $dateFormat = "")
     global $CurrentLocale, $TIME_ZONE;
     $dt = false;
     if (is_numeric($ts)) { // Timestamp
-        $dt = (new \DateTimeImmutable())->setTimestamp((int) $ts);
+        $dt = (new \DateTimeImmutable())->setTimestamp((int)$ts);
     } elseif (is_string($ts) && !EmptyValue($ts)) {
         $dt = new \DateTimeImmutable(trim($ts));
     } elseif ($ts instanceof \DateTimeInterface) {
@@ -3002,7 +3002,7 @@ function FormatCurrency($value, $pattern = "")
     $fmt->setSymbol(\NumberFormatter::CURRENCY_SYMBOL, $CURRENCY_SYMBOL);
     $fmt->setSymbol(\NumberFormatter::MONETARY_SEPARATOR_SYMBOL, $DECIMAL_SEPARATOR);
     $fmt->setSymbol(\NumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL, $GROUPING_SEPARATOR);
-    $res = $fmt->format((float) $value);
+    $res = $fmt->format((float)$value);
     return $res !== false ? ConvertDigits($res) : $value;
 }
 
@@ -3043,7 +3043,7 @@ function FormatNumber($value, $pattern = "")
     }
     $fmt->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $DECIMAL_SEPARATOR);
     $fmt->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $GROUPING_SEPARATOR);
-    $res = $fmt->format((float) $value);
+    $res = $fmt->format((float)$value);
     return $res !== false ? ConvertDigits($res) : $value;
 }
 
@@ -3062,7 +3062,7 @@ function FormatInteger($value)
     $fmt = new \NumberFormatter($CurrentLocale, \NumberFormatter::TYPE_INT32); // TYPE_INT64 does not work
     $fmt->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $DECIMAL_SEPARATOR);
     $fmt->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $GROUPING_SEPARATOR);
-    $res = $fmt->format((int) $value);
+    $res = $fmt->format((int)$value);
     return $res !== false ? $res : $value;
 }
 
@@ -3143,7 +3143,7 @@ function FormatPercent($value, $pattern = "")
     $fmt->setSymbol(\NumberFormatter::PERCENT_SYMBOL, $PERCENT_SYMBOL);
     $fmt->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $DECIMAL_SEPARATOR);
     $fmt->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $GROUPING_SEPARATOR);
-    $res = $fmt->format((float) $value);
+    $res = $fmt->format((float)$value);
     return $res !== false ? ConvertDigits($res) : $value;
 }
 
@@ -3901,7 +3901,7 @@ function UniqueFilename($folders, $orifn, $indexed = false)
     $ext = $info["extension"];
     $i = 1;
     if ($indexed && preg_match('/\((\d+)\)$/', $filename, $matches)) { // Match '(n)' at the end of the file name
-        $i = (int) $matches[1];
+        $i = (int)$matches[1];
         $filename = preg_replace('/\(\d+\)$/', '', $filename); // Remove "(n)" at the end of the file name
     }
     $folders = is_array($folders) ? $folders : [$folders];
@@ -3958,10 +3958,10 @@ function FixUploadFileNames($fld)
 {
     $newFiles = $fld->UploadMultiple
         ? explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $fld->Upload->FileName)
-        : [$fld->Upload->FileName];
+        : [ $fld->Upload->FileName ];
     $oldFiles = EmptyValue($fld->Upload->DbValue) ? [] : ($fld->UploadMultiple
         ? explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $fld->htmlDecode($fld->Upload->DbValue))
-        : [$fld->htmlDecode($fld->Upload->DbValue)]);
+        : [ $fld->htmlDecode($fld->Upload->DbValue) ]);
     $tempPath = UploadTempPath($fld, $fld->Upload->Index);
     $workPath = IncludeTrailingDelimiter($tempPath . "__work", true);
     if (!CreateFolder($workPath)) {
@@ -4014,14 +4014,14 @@ function SaveUploadFiles($fld, $fileNames, $resize)
     $tempPath = UploadTempPath($fld, $fld->Upload->Index);
     $newFiles = $fld->UploadMultiple
         ? explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $fld->Upload->FileName)
-        : [$fld->Upload->FileName];
+        : [ $fld->Upload->FileName ];
     if (!EmptyValue($fld->Upload->FileName)) {
         if (SameString($fld->Upload->FileName, $fileNames)) { // Not changed in server event
             $fileNames = "";
         }
         $newFiles2 = EmptyValue($fileNames) ? [] : ($fld->UploadMultiple
             ? explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $fileNames)
-            : [$fileNames]);
+            : [ $fileNames ]);
         $newFileCount = count($newFiles);
         for ($i = 0; $i < $newFileCount; $i++) {
             $newFile = $newFiles[$i];
@@ -4045,7 +4045,7 @@ function SaveUploadFiles($fld, $fileNames, $resize)
     if (Config("DELETE_UPLOADED_FILES")) {
         $oldFiles = EmptyValue($fld->Upload->DbValue) ? [] : ($fld->UploadMultiple
             ? explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $fld->htmlDecode($fld->Upload->DbValue))
-            : [$fld->htmlDecode($fld->Upload->DbValue)]);
+            : [ $fld->htmlDecode($fld->Upload->DbValue) ]);
         foreach ($oldFiles as $oldFile) {
             if (!EmptyValue($oldFile) && !in_array($oldFile, $newFiles)) {
                 @unlink($fld->oldPhysicalUploadPath() . $oldFile);
@@ -5309,10 +5309,10 @@ function CheckSum($value)
     $value = str_replace(['-', ' '], ['', ''], $value);
     $checksum = 0;
     for ($i = (2 - (strlen($value) % 2)); $i <= strlen($value); $i += 2) {
-        $checksum += (int) ($value[$i - 1]);
+        $checksum += (int)($value[$i - 1]);
     }
     for ($i = (strlen($value) % 2) + 1; $i < strlen($value); $i += 2) {
-        $digit = (int) ($value[$i - 1]) * 2;
+        $digit = (int)($value[$i - 1]) * 2;
         $checksum += ($digit < 10) ? $digit : ($digit - 9);
     }
     return ($checksum % 10 == 0);
@@ -5468,13 +5468,13 @@ function ConvertToUtf8($val)
     } elseif (is_array($val) || is_object($val)) {
         $isObject = is_object($val);
         if ($isObject) {
-            $val = (array) $val;
+            $val = (array)$val;
         }
         $res = [];
         foreach ($val as $key => $value) {
             $res[ConvertToUtf8($key)] = ConvertToUtf8($value);
         }
-        return $isObject ? (object) $res : $res;
+        return $isObject ? (object)$res : $res;
     }
     return $val;
 }
@@ -5495,13 +5495,13 @@ function ConvertFromUtf8($val)
     } elseif (is_array($val) || is_object($val)) {
         $isObject = is_object($val);
         if ($isObject) {
-            $val = (array) $val;
+            $val = (array)$val;
         }
         $res = [];
         foreach ($val as $key => $value) {
             $res[ConvertFromUtf8($key)] = ConvertFromUtf8($value);
         }
-        return $isObject ? (object) $res : $res;
+        return $isObject ? (object)$res : $res;
     }
     return $val;
 }
@@ -5539,7 +5539,7 @@ function VarToJson($val, $type = null)
     } elseif ($type == "date" && (is_string($val) || is_int($val))) { // date
         return 'new Date("' . $val . '")';
     } elseif ($type == "number" && is_string($val)) { // number
-        return (float) $val;
+        return (float)$val;
     } elseif ($type == "string" || is_string($val)) { // string
         if (ContainsString($val, "\0")) { // Contains null byte
             $val = "binary";
@@ -5902,12 +5902,12 @@ function AllowListMenu($tableName)
             foreach ($rows as $row) {
                 if (SameString($row[0], $tableName) && in_array($row[1], $userlevels)) {
                     $p = $row[2] ?? 0;
-                    $p = (int) $p;
+                    $p = (int)$p;
                     $priv = $priv | $p;
                 }
             }
         }
-        return ($priv & Allow::LIST ->value);
+        return ($priv & Allow::LIST->value);
     }
 }
 
@@ -6593,18 +6593,18 @@ function LocaleConvert()
     $pctfmt = new \NumberFormatter($CurrentLocale, \NumberFormatter::PERCENT);
     $currcode = $locale["currency_code"] ?? $currfmt->getTextAttribute(\NumberFormatter::CURRENCY_CODE);
     $locale["currency_code"] = $currcode != "XXX" ? $currcode : $CURRENCY_CODE;
-    $locale["number"] ??= $fmt->getPattern();
-    $locale["currency"] ??= $currfmt->getPattern();
-    $locale["percent"] ??= $pctfmt->getPattern();
-    $locale["percent_symbol"] ??= $pctfmt->getSymbol(\NumberFormatter::PERCENT_SYMBOL);
-    $locale["currency_symbol"] ??= $currfmt->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
-    $locale["numbering_system"] ??= "";
-    $locale["date"] ??= (new \IntlDateFormatter($CurrentLocale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE))->getPattern();
-    $locale["time"] ??= (new \IntlDateFormatter($CurrentLocale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT))->getPattern();
-    $locale["decimal_separator"] ??= $fmt->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
-    $locale["grouping_separator"] ??= $fmt->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
-    $locale["date_separator"] ??= $getSeparator($locale["date"]) ?? $DATE_SEPARATOR;
-    $locale["time_separator"] ??= $getSeparator($locale["time"]) ?? $TIME_SEPARATOR;
+    $locale["number"] ??=  $fmt->getPattern();
+    $locale["currency"] ??=  $currfmt->getPattern();
+    $locale["percent"] ??=  $pctfmt->getPattern();
+    $locale["percent_symbol"] ??=  $pctfmt->getSymbol(\NumberFormatter::PERCENT_SYMBOL);
+    $locale["currency_symbol"] ??=  $currfmt->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
+    $locale["numbering_system"] ??=  "";
+    $locale["date"] ??=  (new \IntlDateFormatter($CurrentLocale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE))->getPattern();
+    $locale["time"] ??=  (new \IntlDateFormatter($CurrentLocale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT))->getPattern();
+    $locale["decimal_separator"] ??=  $fmt->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+    $locale["grouping_separator"] ??=  $fmt->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
+    $locale["date_separator"] ??=  $getSeparator($locale["date"]) ?? $DATE_SEPARATOR;
+    $locale["time_separator"] ??=  $getSeparator($locale["time"]) ?? $TIME_SEPARATOR;
     $locale["time_zone"] = !empty($locale["time_zone"]) ? $locale["time_zone"] : $TIME_ZONE;
     return $locale;
 }
@@ -6727,7 +6727,7 @@ function SessionTimeoutTime()
     if (Config("SESSION_TIMEOUT") > 0) { // User specified timeout time
         $mlt = Config("SESSION_TIMEOUT") * 60;
     } else { // Get max life time from php.ini
-        $mlt = (int) ini_get("session.gc_maxlifetime"); // Defaults to 1440s = 24min
+        $mlt = (int)ini_get("session.gc_maxlifetime"); // Defaults to 1440s = 24min
         if ($mlt > 0) {
             $mlt -= 30; // Add some safety margin
         }
@@ -6878,6 +6878,7 @@ function GlobalClientVars()
         "ROWTYPE_ADD" => RowType::ADD, // 2
         "ROWTYPE_EDIT" => RowType::EDIT, // 3
         "CURRENCY_FORMAT" => str_replace('¤', '$', $CURRENCY_FORMAT),
+        "IS_RTL" => IsRTL(),
         "IS_LOGGEDIN" => IsLoggedIn(),
         "IS_AUTOLOGIN" => IsAutoLogin(),
         "LANGUAGE_ID" => str_replace("_", "-", CurrentLanguageID()),
@@ -7085,7 +7086,7 @@ function ConvertDisplayValue($t, $val)
         return Config("EMPTY_VALUE");
     }
     if (is_float($val)) {
-        $val = (float) $val;
+        $val = (float)$val;
     }
     if ($t == "") {
         return $val;
@@ -7139,7 +7140,7 @@ function GetDropDownDisplayValue($v, $t = "", $fmt = 0)
     if (in_array($t, ["y", "year", "q", "quarter"])) {
         return (count($ar) >= 2) ? QuarterName($ar[1]) . " " . $ar[0] : $v;
     } elseif (in_array($t, ["m", "month"])) {
-        return (count($ar) >= 2) ? MonthName($ar[1]) . " " . $ar[0] : $v;
+        return (count($ar) >= 2) ?  MonthName($ar[1]) . " " . $ar[0] : $v;
     } elseif (in_array($t, ["w", "week"])) {
         return (count($ar) >= 2) ? $Language->phrase("Week") . " " . $ar[1] . ", " . $ar[0] : $v;
     } elseif (in_array($t, ["d", "day"])) {
@@ -7333,12 +7334,12 @@ function CrosstabFieldExpression($smrytype, $smryfld, $colfld, $datetype, $val, 
         case "AVG":
             $sumwrk = "SUM(" . $smryfld . "*" . SqlDistinctFactor($colfld, $datetype, $wrkval, $wrkqc, $dbid) . ")";
             if ($alias != "") {
-                //          $sumwrk .= " AS SUM_" . $alias;
+//          $sumwrk .= " AS SUM_" . $alias;
                 $sumwrk .= " AS " . QuotedName("sum_" . $alias, $dbid);
             }
             $cntwrk = "SUM(" . SqlDistinctFactor($colfld, $datetype, $wrkval, $wrkqc, $dbid) . ")";
             if ($alias != "") {
-                //          $cntwrk .= " AS CNT_" . $alias;
+//          $cntwrk .= " AS CNT_" . $alias;
                 $cntwrk .= " AS " . QuotedName("cnt_" . $alias, $dbid);
             }
             return $sumwrk . ", " . $cntwrk;
@@ -7575,7 +7576,7 @@ function IsSelectedValue(&$ar, $value, $ft)
                 return true;
             }
         } elseif (SameString($value, Config("NULL_VALUE")) && $value == $val) {
-            return true;
+                return true;
         } else {
             if (CompareValueByFieldType($val, $value, $ft)) {
                 return true;
@@ -7605,7 +7606,7 @@ function IsAdvancedFilterValue($v)
 function CompareValueByFieldType($v1, $v2, $ft)
 {
     switch ($ft) {
-        // Case adBigInt, adInteger, adSmallInt, adTinyInt, adUnsignedTinyInt, adUnsignedSmallInt, adUnsignedInt, adUnsignedBigInt
+    // Case adBigInt, adInteger, adSmallInt, adTinyInt, adUnsignedTinyInt, adUnsignedSmallInt, adUnsignedInt, adUnsignedBigInt
         case 20:
         case 3:
         case 2:
@@ -7618,16 +7619,16 @@ function CompareValueByFieldType($v1, $v2, $ft)
                 return (intval($v1) == intval($v2));
             }
             break;
-        // Case adSingle, adDouble, adNumeric, adCurrency
+    // Case adSingle, adDouble, adNumeric, adCurrency
         case 4:
         case 5:
         case 131:
         case 6:
             if (is_numeric($v1) && is_numeric($v2)) {
-                return ((float) $v1 == (float) $v2);
+                return ((float)$v1 == (float)$v2);
             }
             break;
-        //  Case adDate, adDBDate, adDBTime, adDBTimeStamp
+    //  Case adDate, adDBDate, adDBTime, adDBTimeStamp
         case 7:
         case 133:
         case 135:
@@ -8200,7 +8201,7 @@ function CompareValueCustom($v1, $v2, $seq)
 {
     if ($seq == "_number") { // Number
         if (is_numeric($v1) && is_numeric($v2)) {
-            return ((float) $v1 > (float) $v2);
+            return ((float)$v1 > (float)$v2);
         }
     } elseif ($seq == "_date") { // Date
         if (is_numeric(strtotime($v1)) && is_numeric(strtotime($v2))) {

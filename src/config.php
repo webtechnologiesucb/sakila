@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sakila 2024 configuration file
+ * PHPMaker 2024 configuration file
  */
 
 namespace PHPMaker2024\Sakila;
@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * Locale settings
  * Note: If you want to use custom settings, customize the locale files.
- */
+*/
 $DECIMAL_SEPARATOR = ".";
 $GROUPING_SEPARATOR = ",";
 $CURRENCY_CODE = "USD"; // => $
@@ -303,7 +303,7 @@ $CONFIG = [
      * first before calculating hash. Otherwise, existing users will not be able
      * to login. Hashed password is irreversible, it will be reset during password recovery.
      */
-    "ENCRYPTED_PASSWORD" => false, // Use encrypted password
+    "ENCRYPTED_PASSWORD" => true, // Use encrypted password
     "CASE_SENSITIVE_PASSWORD" => false, // Case-sensitive password
 
     // Session timeout time
@@ -408,8 +408,8 @@ $CONFIG = [
     "CSRF_PREFIX" => "csrf",
     "ENCRYPTION_ENABLED" => false, // Encryption enabled
     "ENCRYPT_USER_NAME_AND_PASSWORD" => false, // Encrypt user name / password
-    "ADMIN_USER_NAME" => "", // Administrator user name
-    "ADMIN_PASSWORD" => "", // Administrator password
+    "ADMIN_USER_NAME" => "admin", // Administrator user name
+    "ADMIN_PASSWORD" => "Admin.1234", // Administrator password
     "USE_CUSTOM_LOGIN" => true, // Use custom login (Windows/LDAP/User_CustomValidate)
     "ALLOW_LOGIN_BY_URL" => false, // Allow login by URL
     "PHPASS_ITERATION_COUNT_LOG2" => [10, 8], // For PasswordHash
@@ -715,7 +715,7 @@ $CONFIG = [
      * 1 - no multi value
      * 2 - AND all multi values
      * 3 - OR all multi values
-     */
+    */
     "SEARCH_MULTI_VALUE_OPTION" => 3,
 
     // Advanced search
@@ -777,7 +777,7 @@ $CONFIG = [
     "FILTER_OPTION_SEPARATOR" => "|",
     "USE_LOOKUP_CACHE" => true,
     "LOOKUP_CACHE_COUNT" => 100,
-    "LOOKUP_CACHE_PAGE_IDS" => ["list", "grid"],
+    "LOOKUP_CACHE_PAGE_IDS" => ["list","grid"],
 
     // Page Title Style
     "PAGE_TITLE_STYLE" => "Breadcrumbs",
@@ -1050,26 +1050,26 @@ $CONFIG = [
 
     // Query builder search operators settings
     "QUERY_BUILDER_OPERATORS" => [
-        "equal" => ["type" => "equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"]],
-        "not_equal" => ["type" => "not_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"]],
-        "in" => ["type" => "in", "nb_inputs" => 1, "multiple" => true, "apply_to" => ["string", "number", "datetime"]],
-        "not_in" => ["type" => "not_in", "nb_inputs" => 1, "multiple" => true, "apply_to" => ["string", "number", "datetime"]],
-        "less" => ["type" => "less", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "less_or_equal" => ["type" => "less_or_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "greater" => ["type" => "greater", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "greater_or_equal" => ["type" => "greater_or_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "between" => ["type" => "between", "nb_inputs" => 2, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "not_between" => ["type" => "not_between", "nb_inputs" => 2, "multiple" => false, "apply_to" => ["number", "datetime"]],
-        "begins_with" => ["type" => "begins_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "not_begins_with" => ["type" => "not_begins_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "contains" => ["type" => "contains", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "not_contains" => ["type" => "not_contains", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "ends_with" => ["type" => "ends_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "not_ends_with" => ["type" => "not_ends_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"]],
-        "is_empty" => ["type" => "is_empty", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string"]],
-        "is_not_empty" => ["type" => "is_not_empty", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string"]],
-        "is_null" => ["type" => "is_null", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"]],
-        "is_not_null" => ["type" => "is_not_null", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"]]
+        "equal" => [ "type" => "equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"] ],
+        "not_equal" => [ "type" => "not_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"] ],
+        "in" => [ "type" => "in", "nb_inputs" => 1, "multiple" => true, "apply_to" => ["string", "number", "datetime"] ],
+        "not_in" => [ "type" => "not_in", "nb_inputs" => 1, "multiple" => true, "apply_to" => ["string", "number", "datetime"] ],
+        "less" => [ "type" => "less", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "less_or_equal" => [ "type" => "less_or_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "greater" => [ "type" => "greater", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "greater_or_equal" => [ "type" => "greater_or_equal", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "between" => [ "type" => "between", "nb_inputs" => 2, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "not_between" => [ "type" => "not_between", "nb_inputs" => 2, "multiple" => false, "apply_to" => ["number", "datetime"] ],
+        "begins_with" => [ "type" => "begins_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "not_begins_with" => [ "type" => "not_begins_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "contains" => [ "type" => "contains", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "not_contains" => [ "type" => "not_contains", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "ends_with" => [ "type" => "ends_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "not_ends_with" => [ "type" => "not_ends_with", "nb_inputs" => 1, "multiple" => false, "apply_to" => ["string"] ],
+        "is_empty" => [ "type" => "is_empty", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string"] ],
+        "is_not_empty" => [ "type" => "is_not_empty", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string"] ],
+        "is_null" => [ "type" => "is_null", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"] ],
+        "is_not_null" => [ "type" => "is_not_null", "nb_inputs" => 0, "multiple" => false, "apply_to" => ["string", "number", "datetime", "boolean"] ]
     ],
 
     // Value separator for IN operator
@@ -1259,7 +1259,8 @@ $CONFIG = [
         "USE_JAVASCRIPT_MESSAGE",
         "LIST_ACTION",
         "VIEW_ACTION",
-        "EDIT_ACTION"
+        "EDIT_ACTION",
+        "RTL_LANGUAGES"
     ],
 
     // Global client side variables
@@ -1278,8 +1279,7 @@ $CONFIG = [
         "TokenNameKey", // Token name key
         "TokenName", // Token name
         "CurrentUserName", // Current user name
-        "IsSysAdmin", // Is system admin
-        "IsRTL" // Is RTL
+        "IsSysAdmin" // Is system admin
     ],
 
     // Doctrine ORM
@@ -1304,5 +1304,5 @@ $CONFIG = [
 // Merge environment config
 $CONFIG = array_merge(
     $CONFIG,
-    require ("config." . $CONFIG["ENVIRONMENT"] . ".php")
+    require("config." . $CONFIG["ENVIRONMENT"] . ".php")
 );

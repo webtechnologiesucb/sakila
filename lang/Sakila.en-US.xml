@@ -1,7 +1,7 @@
-<ew-language date="2024/7/23" id="en-US" author="e.World Technology Limited">
+<ew-language date="2024/8/8" id="en-US" author="e.World Technology Limited">
   <project>
     <phrase id="bodytitle" value="SAKILA - Rental Film Store" />
-    <phrase id="footertext" value="&amp;copy;2024 SakilaSoft. All rights reserved." />
+    <phrase id="footertext" value="&amp;copy;2024 Sakila Corp. All rights reserved." />
     <menu id="33">
       <phrase id="menutext" value="Dashboard All" />
     </menu>

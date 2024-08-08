@@ -72,6 +72,7 @@
         clone $p['PHPMaker2024\\Sakila\\Attributes\\Map'],
         clone $p['PHPMaker2024\\Sakila\\Attributes\\Map'],
         clone $p['PHPMaker2024\\Sakila\\Attributes\\Map'],
+        clone $p['PHPMaker2024\\Sakila\\Attributes\\Map'],
         clone ($p['PHPMaker2024\\Sakila\\Attributes\\Get'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('PHPMaker2024\\Sakila\\Attributes\\Get')),
         clone $p['PHPMaker2024\\Sakila\\Attributes\\Get'],
         clone $p['PHPMaker2024\\Sakila\\Attributes\\Map'],
@@ -107,6 +108,11 @@
     [
         'PHPMaker2024\\Sakila\\Attributes\\Map' => [
             'methods' => [
+                [
+                    'GET',
+                    'POST',
+                    'OPTIONS',
+                ],
                 [
                     'GET',
                     'POST',
@@ -686,6 +692,7 @@
                 '/nicerbutslowerfilmlistlist',
                 '/personaldata',
                 '/login[/{provider}]',
+                '/changepassword',
                 '/logout',
                 '/swagger/swagger',
                 '/[index]',
@@ -790,6 +797,7 @@
                 'PHPMaker2024\\Sakila\\NicerButSlowerFilmListController:list',
                 'PHPMaker2024\\Sakila\\OthersController:personaldata',
                 'PHPMaker2024\\Sakila\\OthersController:login',
+                'PHPMaker2024\\Sakila\\OthersController:changepassword',
                 'PHPMaker2024\\Sakila\\OthersController:logout',
                 'PHPMaker2024\\Sakila\\OthersController:swagger',
                 'PHPMaker2024\\Sakila\\OthersController:index',
@@ -823,6 +831,9 @@
                 'PHPMaker2024\\Sakila\\StoreController:delete',
             ],
             'middleware' => [
+                [
+                    'PHPMaker2024\\Sakila\\PermissionMiddleware',
+                ],
                 [
                     'PHPMaker2024\\Sakila\\PermissionMiddleware',
                 ],
@@ -1200,6 +1211,7 @@
                 'list.nicer_but_slower_film_list',
                 'personaldata',
                 'login',
+                'changepassword',
                 'logout',
                 'swagger',
                 'index',
@@ -1233,6 +1245,7 @@
                 'delete.store',
             ],
             'options' => [
+                [],
                 [],
                 [],
                 [],
@@ -1441,6 +1454,7 @@
         $o[99],
         $o[100],
         $o[101],
+        $o[102],
     ],
     []
 );
